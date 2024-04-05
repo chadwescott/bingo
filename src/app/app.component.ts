@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GameService } from './services/game.service';
 
 @Component({
   selector: 'bng-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bingo';
+  constructor(private readonly gameService: GameService) {
+  }
+
+  ngOnInit() {
+    this.gameService.createGame();
+  }
 }

@@ -1,1 +1,9 @@
-<p>called-numbers works!</p>
+<div *ngIf="balls" class="balls">
+    <div *ngFor="let letter of letters" class="ball-row">
+        <div class="ball-letter">{{ letter }}</div>
+        <div *ngFor="let ball of balls[letter]" class="ball-number"
+            [ngClass]="{ 'called': ball.called, 'clickable': editable }" (click)="clickBall(ball)">
+            {{ ball.number }}
+        </div>
+    </div>
+</div>

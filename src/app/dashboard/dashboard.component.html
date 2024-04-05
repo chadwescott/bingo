@@ -1,8 +1,1 @@
-<div class="balls">
-    <div *ngFor="let letter of letters" class="ball-row">
-        <div class="ball-letter">{{ letter }}</div>
-        <ng-container *ngFor="let ball of balls[letter]">
-            <div class="ball-number" [ngClass]="{ 'called': ball.called }">{{ ball.number }}</div>
-        </ng-container>
-    </div>
-</div>
+<bng-called-numbers [balls]="game?.balls"></bng-called-numbers>

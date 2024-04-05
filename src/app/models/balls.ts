@@ -4,7 +4,7 @@ import { Letters } from "./letters";
 export const Balls: Ball[] = [
     { letter: Letters.B, number: 1, called: false },
     { letter: Letters.B, number: 2, called: false },
-    { letter: Letters.B, number: 4, called: false },
+    { letter: Letters.B, number: 3, called: false },
     { letter: Letters.B, number: 4, called: false },
     { letter: Letters.B, number: 5, called: false },
     { letter: Letters.B, number: 6, called: false },

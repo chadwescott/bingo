@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Ball } from '../models/ball';
-import { Balls } from '../models/balls';
-import { Letters } from '../models/letters';
+import { Game } from '../models/game';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'bng-dashboard',
@@ -9,17 +8,12 @@ import { Letters } from '../models/letters';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  balls: { [key in Letters]: Ball[] } = {
-    [Letters.B]: Balls.filter(ball => ball.letter === Letters.B),
-    [Letters.I]: Balls.filter(ball => ball.letter === Letters.I),
-    [Letters.N]: Balls.filter(ball => ball.letter === Letters.N),
-    [Letters.G]: Balls.filter(ball => ball.letter === Letters.G),
-    [Letters.O]: Balls.filter(ball => ball.letter === Letters.O)
-  };
+  game: Game | undefined;
 
-  letters = Object.values(Letters);
+  constructor(private readonly gameService: GameService) {
+  }
 
   ngOnInit() {
-    console.log(this.letters);
+    this.gameService.currentGame$.subscribe(g => this.game = g);
   }
 }
