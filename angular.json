@@ -87,10 +87,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bingo:build:production"
+              "buildTarget": "bingo:build:production"
             },
             "development": {
-              "browserTarget": "bingo:build:development"
+              "buildTarget": "bingo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -98,7 +98,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bingo:build"
+            "buildTarget": "bingo:build"
           }
         },
         "test": {
