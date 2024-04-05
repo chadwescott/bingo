@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Game } from '../models/game';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -9,12 +7,22 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./control-panel.component.scss']
 })
 export class ControlPanelComponent {
-  game$: BehaviorSubject<Game | undefined> = new BehaviorSubject<Game | undefined>(undefined);
+  game$ = this.gameService.currentGame$;
+  games$ = this.gameService.games$;
 
   constructor(private readonly gameService: GameService) {
   }
 
   ngOnInit() {
-    this.game$ = this.gameService.currentGame$;
+    this.game$.subscribe(g => console.log(g));
+  }
+
+  newGame(): void {
+    this.gameService.createGame();
+  }
+
+  loadGame(game: any): void {
+    console.log(game);
+    this.gameService.loadGame(game);
   }
 }

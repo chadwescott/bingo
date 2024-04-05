@@ -1,1 +1,5 @@
 <bng-called-numbers [balls]="(game$ | async)?.balls" [editable]="true"></bng-called-numbers>
+<button (click)="newGame()">New Game</button>
+<select (change)="loadGame($event.target)">
+    <option *ngFor="let game of games$ | async" [value]="game">{{ game.gameNumber }}</option>
+</select>
