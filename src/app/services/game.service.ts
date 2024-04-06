@@ -19,7 +19,9 @@ export class GameService {
 
     constructor() {
         this.channel.addEventListener('message', event => {
-            this.currentGame$.next(event.data);
+            const currentGame = event.data;
+            this.currentGame$.next(currentGame);
+            this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
         });
 
         this.loadData();

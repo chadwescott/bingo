@@ -23,6 +23,7 @@ $my-theme: mat.define-light-theme(
 
 :root {
     --primary-color: #611921;
+    --text-color: #fff;
     --secondary-color: #6c757d;
     --success-color: #28a745;
     --info-color: #17a2b8;
@@ -34,6 +35,16 @@ $my-theme: mat.define-light-theme(
     --black-color: #000;
     --not-called-color: #333;
     --called-color: #fff;
+    --b-ball-color: #0b92ff;
+    --i-ball-color: red;
+    --n-ball-color: white;
+    --g-ball-color: green;
+    --o-ball-color: yellow;
+    --b-ball-text-color: white;
+    --i-ball-text-color: white;
+    --n-ball-text-color: black;
+    --g-ball-text-color: white;
+    --o-ball-text-color: black;
 }
 
 * {
@@ -45,5 +56,5 @@ body {
     padding: 0;
     min-height: 100vh;
     background: var(--primary-color);
-    color: var(--white-color);
+    color: var(--text-color);
 }

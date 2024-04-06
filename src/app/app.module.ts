@@ -7,6 +7,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BallDisplayComponent } from './ball-display/ball-display.component';
+import { CallHistoryComponent } from './call-history/call-history.component';
 import { CalledNumbersComponent } from './called-numbers/called-numbers.component';
 import { ControlPanelComponent } from './control-panel/control-panel.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -16,9 +18,11 @@ import { WinningPatternsComponent } from './winning-patterns/winning-patterns.co
   declarations: [
     AppComponent,
     ControlPanelComponent,
+    BallDisplayComponent,
+    CalledNumbersComponent,
+    CallHistoryComponent,
     DashboardComponent,
-    WinningPatternsComponent,
-    CalledNumbersComponent
+    WinningPatternsComponent
   ],
   imports: [
     AppRoutingModule,

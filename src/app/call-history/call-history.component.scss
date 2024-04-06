@@ -1,0 +1,13 @@
+.call-history {
+    margin: 1rem 0;
+    display: flex;
+    gap: 1.05vw;
+
+    > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.5vw;
+    }
+}
