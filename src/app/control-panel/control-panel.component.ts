@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Game } from '../models/game';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -21,8 +22,12 @@ export class ControlPanelComponent {
     this.gameService.createGame();
   }
 
-  loadGame(game: any): void {
-    console.log(game);
+  deleteGame(): void {
+    if (!this.game$.value) { return; }
+    this.gameService.deleteGame(this.game$.value);
+  }
+
+  loadGame(game: Game): void {
     this.gameService.loadGame(game);
   }
 }

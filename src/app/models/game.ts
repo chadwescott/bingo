@@ -7,4 +7,5 @@ export interface Game {
     gameColor: string;
     winningPatterns: WinningPattern[];
     balls: { [key in Letters]: Ball[] };
+    calls: Ball[];
 }

@@ -11,6 +11,7 @@ import { Letters } from "../models/letters";
 export class GameService {
     currentGame$: BehaviorSubject<Game | undefined> = new BehaviorSubject<Game | undefined>(undefined);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
+    lastCall$: BehaviorSubject<Ball | undefined> = new BehaviorSubject<Ball | undefined>(undefined);
     channel = new BroadcastChannel('game-channel');
 
     private readonly _currentGameKey = 'current-game';
@@ -33,14 +34,29 @@ export class GameService {
         const currentGame = localStorage.getItem(this._currentGameKey);
         if (currentGame) {
             this.currentGame$.next(JSON.parse(currentGame));
+            this.updateLastCall();
         } else {
             this.createGame();
         }
+        this.saveCurrentGame();
+    }
+
+    private updateLastCall() {
+        const currentGame = this.currentGame$.value;
+        this.lastCall$.next(currentGame && currentGame.calls.length > 0 ? currentGame.calls[currentGame.calls.length - 1] : undefined);
     }
 
     private saveCurrentGame(): void {
-        localStorage.setItem(this._currentGameKey, JSON.stringify(this.currentGame$.value));
-        this.channel.postMessage(this.currentGame$.value);
+        const currentGame = this.currentGame$.value;
+        if (!currentGame) { return; }
+
+        localStorage.setItem(this._currentGameKey, JSON.stringify(currentGame));
+        this.channel.postMessage(currentGame);
+
+        const games = this.games$.value;
+        games[games.findIndex(g => g.gameNumber === currentGame.gameNumber)] = currentGame;
+        this.games$.next(games);
+        this.saveGames();
     }
 
     private saveGames(): void {
@@ -58,7 +74,8 @@ export class GameService {
                 [Letters.N]: Balls.filter(ball => ball.letter === Letters.N).map(ball => ({ ...ball, called: false })),
                 [Letters.G]: Balls.filter(ball => ball.letter === Letters.G).map(ball => ({ ...ball, called: false })),
                 [Letters.O]: Balls.filter(ball => ball.letter === Letters.O).map(ball => ({ ...ball, called: false }))
-            }
+            },
+            calls: []
         };
 
         this.currentGame$.next(game);
@@ -73,6 +90,19 @@ export class GameService {
 
     callBall(ball: Ball): void {
         ball.called = !ball.called;
+        const currentGame = this.currentGame$.value;
+        if (!currentGame) { return; }
+
+        if (ball.called) {
+            currentGame.calls.push(ball);
+        } else {
+            const index = currentGame.calls.findIndex(b => b.letter === ball.letter && b.number === ball.number);
+            if (index !== undefined && index !== -1) {
+                currentGame.calls.splice(index, 1);
+            }
+        }
+
+        this.updateLastCall();
         this.saveCurrentGame();
     }
 
@@ -82,7 +112,7 @@ export class GameService {
     }
 
     deleteGame(game: Game): void {
-        this.games$.next(this.games$.value.filter(g => g !== game));
+        this.games$.next(this.games$.value.filter(g => g.gameNumber !== game.gameNumber));
         this.saveGames();
 
         if (this.currentGame$.value === game) {

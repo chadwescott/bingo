@@ -9,14 +9,37 @@
         align-items: center;
         justify-content: center;
         border: solid 1px var(--white-color);
+        background: var(--black-color);
+        color: var(--not-called-color);
         font-size: 4vw;
         height: var(--box-size);
         width: var(--box-size);
+
+        &.ball-letter {
+            color: var(--white-color);
+        }
     }
 
     .called {
-        background-color: yellow;
-        color: var(--black-color);
+        color: var(--called-color);
+
+        &.active {
+            transition: color 0.5s;
+            animation-name: active-number;
+            animation-duration: 750ms;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+    }
+
+    @keyframes active-number {
+        from {
+            color: var(--black-color);
+        }
+        to {
+            color: var(--called-color);
+        }
     }
 
     .clickable {

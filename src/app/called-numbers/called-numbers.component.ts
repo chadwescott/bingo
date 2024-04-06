@@ -13,6 +13,7 @@ export class CalledNumbersComponent {
   @Input() balls: { [key in Letters]: Ball[] } | undefined;
 
   letters = Object.values(Letters);
+  lastCall$ = this.gameService.lastCall$;
 
   constructor(private readonly gameService: GameService) {
   }
