@@ -1,3 +1,7 @@
+.balls {
+    border: solid 1px var(--white-color);
+}
+
 .ball-row {
     display: flex;
     --box-size: calc(100vw / 18);
@@ -16,7 +20,30 @@
         width: var(--box-size);
 
         &.ball-letter {
-            color: var(--white-color);
+            color: var(--ball-text-color);
+            background: var(--ball-color);
+
+            &[ball-letter='B'] {
+                --ball-color: var(--b-ball-color);
+                --ball-text-color: var(--b-ball-text-color);
+            }
+
+            &[ball-letter='I'] {
+                --ball-color: var(--i-ball-color);
+                --ball-text-color: var(--i-ball-text-color);
+            }
+            &[ball-letter='N'] {
+                --ball-color: var(--n-ball-color);
+                --ball-text-color: var(--n-ball-text-color);
+            }
+            &[ball-letter='G'] {
+                --ball-color: var(--g-ball-color);
+                --ball-text-color: var(--g-ball-text-color);
+            }
+            &[ball-letter='O'] {
+                --ball-color: var(--o-ball-color);
+                --ball-text-color: var(--o-ball-text-color);
+            }
         }
     }
 

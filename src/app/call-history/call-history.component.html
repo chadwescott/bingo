@@ -1,0 +1,8 @@
+<div class="call-history">
+    <ng-container *ngFor="let call of calls?.reverse()?.slice(0, 12); let i = index">
+        <div>
+            <bng-ball-display [ball]="call"></bng-ball-display>
+            <div *ngIf="i === 0">Current Call</div>
+        </div>
+    </ng-container>
+</div>

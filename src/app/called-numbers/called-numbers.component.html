@@ -1,6 +1,6 @@
 <div *ngIf="balls" class="balls">
     <div *ngFor="let letter of letters" class="ball-row">
-        <div class="ball-letter">{{ letter }}</div>
+        <div class="ball-letter" [attr.ball-letter]="letter">{{ letter }}</div>
         <div *ngFor="let ball of balls[letter]" class="ball-number"
             [ngClass]="{ 'called': ball.called, 'clickable': editable, 'active': ball.letter === (lastCall$ | async)?.letter && ball.number === (lastCall$ | async)?.number}"
             (click)="clickBall(ball)">

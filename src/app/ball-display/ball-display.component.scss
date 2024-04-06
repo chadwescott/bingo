@@ -1,0 +1,78 @@
+.ball {
+    --size: calc(100vw / 16);
+    --border-color: black;
+    border-radius: 50%;
+    background-color: var(--ball-color);
+    position: relative;
+    height: var(--size);
+    width: var(--size);
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: solid 1px var(--border-color);
+
+    &::before {
+        --position: 30%;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+            farthest-corner at var(--position) var(--position),
+            rgb(255 255 255 / 0.6) 00%,
+            rgb(255 255 255 / 0) 25%,
+            rgb(255 255 255 / 0) 50%,
+            rgb(0 0 0 / 0.5) 70%
+        );
+        border-radius: 50%;
+    }
+
+    &[ball-letter='B'] {
+        --ball-color: var(--b-ball-color);
+    }
+
+    &[ball-letter='I'] {
+        --ball-color: var(--i-ball-color);
+    }
+    &[ball-letter='N'] {
+        --ball-color: var(--n-ball-color);
+    }
+    &[ball-letter='G'] {
+        --ball-color: var(--g-ball-color);
+    }
+    &[ball-letter='O'] {
+        --ball-color: var(--o-ball-color);
+    }
+
+    .ball-inner {
+        --size: 66%;
+        color: var(--black-color);
+        background: var(--white-color);
+        border-radius: 50%;
+        height: var(--size);
+        width: var(--size);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        align-items: center;
+        justify-content: center;
+        border: solid 1px var(--border-color);
+
+        > div {
+            margin: -0.1vw;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+
+        .ball-letter {
+            font-size: 1.25vw;
+        }
+
+        .ball-number {
+            font-size: 2vw;
+        }
+    }
+}
