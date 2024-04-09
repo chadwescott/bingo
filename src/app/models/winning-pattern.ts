@@ -1,5 +1,6 @@
 import { Coordinate } from "./coordinate";
 
 export interface WinningPattern {
-    Coordinates: Coordinate[];
+    name: string;
+    coordinates: Coordinate[][];
 }

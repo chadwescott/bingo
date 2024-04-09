@@ -24,7 +24,7 @@ $my-theme: mat.define-light-theme(
 :root {
     --primary-color: #611921;
     --text-color: #fff;
-    --secondary-color: #6c757d;
+    --secondary-color: rgb(80 20 20);
     --success-color: #28a745;
     --info-color: #17a2b8;
     --warning-color: #ffc107;
@@ -47,7 +47,9 @@ $my-theme: mat.define-light-theme(
     --o-ball-text-color: black;
 }
 
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -55,6 +57,6 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: var(--primary-color);
+    background: var(--secondary-color);
     color: var(--text-color);
 }

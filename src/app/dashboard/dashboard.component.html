@@ -1,2 +1,5 @@
 <bng-called-numbers [balls]="game?.balls"></bng-called-numbers>
-<bng-call-history [calls]="game?.calls"></bng-call-history>
+<div class="footer">
+    <bng-call-history [calls]="game?.calls"></bng-call-history>
+    <bng-winning-patterns [pattern]="game?.winningPatterns"></bng-winning-patterns>
+</div>

@@ -4,6 +4,7 @@ import { Ball } from "../models/ball";
 import { Balls } from "../models/balls";
 import { Game } from "../models/game";
 import { Letters } from "../models/letters";
+import { winningPatterns } from "../models/winning-patterns";
 
 @Injectable({
     providedIn: 'root'
@@ -69,7 +70,7 @@ export class GameService {
         const game = {
             gameNumber: this.games$.value.length + 1,
             gameColor: 'red',
-            winningPatterns: [],
+            winningPatterns: winningPatterns[0],
             balls: {
                 [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
                 [Letters.I]: Balls.filter(ball => ball.letter === Letters.I).map(ball => ({ ...ball, called: false })),
