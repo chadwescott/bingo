@@ -9,12 +9,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BallDisplayComponent } from './ball-display/ball-display.component';
-import { CallHistoryComponent } from './call-history/call-history.component';
 import { CalledNumbersComponent } from './called-numbers/called-numbers.component';
 import { ControlPanelComponent } from './control-panel/control-panel.component';
+import { CurrentCallComponent } from './current-call/current-call.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { WinningPatternsComponent } from './winning-patterns/winning-patterns.component';
+import { GameInfoComponent } from './game-info/game-info.component';
 import { HomeComponent } from './home/home.component';
+import { PreviousCallsComponent } from './previous-calls/previous-calls.component';
+import { TotalCallsComponent } from './total-calls/total-calls.component';
+import { WinPatternsComponent } from './win-patterns/win-patterns.component';
 
 @NgModule({
   declarations: [
@@ -22,10 +25,13 @@ import { HomeComponent } from './home/home.component';
     ControlPanelComponent,
     BallDisplayComponent,
     CalledNumbersComponent,
-    CallHistoryComponent,
     DashboardComponent,
-    WinningPatternsComponent,
-    HomeComponent
+    WinPatternsComponent,
+    HomeComponent,
+    CurrentCallComponent,
+    TotalCallsComponent,
+    PreviousCallsComponent,
+    GameInfoComponent
   ],
   imports: [
     AppRoutingModule,

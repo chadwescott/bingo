@@ -1,5 +1,25 @@
-.footer {
+.container {
+    min-height: calc(100vh - var(--gap-size) * 2);
+    margin: var(--gap-size) 0;
     display: flex;
-    margin: 2rem 0;
-    gap: 2rem;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--gap-size);
+
+    > div {
+        display: flex;
+        gap: var(gap-size);
+        justify-content: space-between;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: var(gap-size);
+    }
+
+    .footer {
+        text-transform: uppercase;
+    }
 }

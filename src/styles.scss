@@ -45,6 +45,9 @@ $my-theme: mat.define-light-theme(
     --n-ball-text-color: black;
     --g-ball-text-color: white;
     --o-ball-text-color: black;
+    --border-color: rgb(100 50 50);
+    --border-width: 0.125rem;
+    --gap-size: 0.75vw;
 }
 
 *,
@@ -59,4 +62,45 @@ body {
     min-height: 100vh;
     background: var(--secondary-color);
     color: var(--text-color);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+    font-size: 1.5vw;
+    background: rgb(0 0 0 / 0.5);
+    padding: var(--gap-size);
+    border-radius: 1rem;
+    border: solid calc(var(--border-width) * 2) var(--border-color);
+}
+
+.column,
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-size);
+}
+
+.column {
+    flex-direction: column;
+
+    &[stretch] {
+        align-items: stretch;
+    }
+
+    &[start] {
+        align-items: start;
+    }
+}
+
+.row {
+    flex-direction: row;
+
+    &[stretch] {
+        justify-content: stretch;
+    }
+
+    &[start] {
+        justify-content: start;
+    }
 }

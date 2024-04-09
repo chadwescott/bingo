@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Game } from '../models/game';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -8,12 +7,6 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  game: Game | undefined;
-
-  constructor(private readonly gameService: GameService) {
-  }
-
-  ngOnInit() {
-    this.gameService.currentGame$.subscribe(g => this.game = g);
+  constructor(public readonly gameService: GameService) {
   }
 }

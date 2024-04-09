@@ -1,11 +1,11 @@
 import { Ball } from "./ball";
 import { Letters } from "./letters";
-import { WinningPattern } from "./winning-pattern";
+import { WinPattern } from "./win-pattern";
 
 export interface Game {
     gameNumber: number;
     gameColor: string;
-    winningPatterns: WinningPattern | undefined;
+    WinPattern: WinPattern;
     balls: { [key in Letters]: Ball[] };
     calls: Ball[];
 }

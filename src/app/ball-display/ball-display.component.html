@@ -1,6 +1,6 @@
-<div class="ball" [attr.ball-letter]="ball?.letter" [ngClass]="{ large: largeSize }">
+<div class="ball" [attr.ball-letter]="ball?.letter ?? 'none'" [ngClass]="{ large: largeSize }">
     <div class="ball-inner">
         <div class="ball-letter">{{ ball?.letter }}</div>
-        <div class="ball-number">{{ball?.number}}</div>
+        <div class="ball-number">{{ball?.number }}</div>
     </div>
 </div>

@@ -33,6 +33,12 @@
         border-radius: 50%;
     }
 
+    &[ball-letter='none'] {
+        --ball-color: var(--n-ball-color);
+        --inner-border-color: rgb(0 0 0 / 0);
+        --outer-border-color: rgb(0 0 0 / 0);
+    }
+
     &[ball-letter='B'] {
         --ball-color: var(--b-ball-color);
         --inner-border-color: var(--ball-color);
@@ -44,16 +50,19 @@
         --inner-border-color: var(--ball-color);
         --outer-border-color: var(--white-color);
     }
+
     &[ball-letter='N'] {
         --ball-color: var(--n-ball-color);
         --inner-border-color: red;
         --outer-border-color: rgb(0 0 0 / 0);
     }
+
     &[ball-letter='G'] {
         --ball-color: var(--g-ball-color);
         --inner-border-color: var(--ball-color);
         --outer-border-color: var(--white-color);
     }
+
     &[ball-letter='O'] {
         --ball-color: var(--o-ball-color);
         --inner-border-color: var(--ball-color);
@@ -62,7 +71,7 @@
 
     .ball-inner {
         --ball-size: 66%;
-        --border-size: 0.25rem;
+        --border-size: 0.25vw;
         color: var(--black-color);
         background: var(--white-color);
         border-radius: 50%;
@@ -78,7 +87,6 @@
 
         > div {
             margin: -0.05rem;
-            font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;
         }
 

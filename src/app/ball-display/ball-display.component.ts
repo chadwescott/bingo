@@ -7,6 +7,6 @@ import { Ball } from '../models/ball';
   styleUrl: './ball-display.component.scss'
 })
 export class BallDisplayComponent {
-  @Input() ball: Ball | undefined;
+  @Input() ball: Ball | null = null;
   @Input() largeSize = false;
 }

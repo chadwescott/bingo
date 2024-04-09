@@ -1,22 +1,22 @@
 import { Component, Input } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Coordinate } from '../models/coordinate';
-import { WinningPattern } from '../models/winning-pattern';
+import { WinPattern } from '../models/win-pattern';
 
 @Component({
-  selector: 'bng-winning-patterns',
-  templateUrl: './winning-patterns.component.html',
-  styleUrls: ['./winning-patterns.component.scss']
+  selector: 'bng-win-patterns',
+  templateUrl: './win-patterns.component.html',
+  styleUrls: ['./win-patterns.component.scss']
 })
-export class WinningPatternsComponent {
-  @Input() pattern: WinningPattern | undefined;
+export class WinPatternsComponent {
+  @Input() pattern: WinPattern | null = null;
   @Input() delayMs = 1000;
 
   patternIndex = 0;
   currentCoordinates: Coordinate[] = [];
   rows = [0, 1, 2, 3, 4];
   columns = [0, 1, 2, 3, 4];
-  subscription: Subscription | undefined;
+  subscription: Subscription | null = null;
 
   ngOnInit() {
     this.subscription = interval(this.delayMs).subscribe(() => {

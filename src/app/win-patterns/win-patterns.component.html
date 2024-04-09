@@ -1,0 +1,23 @@
+<div class="card column">
+    <div>Win Patterns</div>
+    <div class="board">
+        <div class="letter-row">
+            <div class="letter">B</div>
+            <div class="letter">I</div>
+            <div class="letter">N</div>
+            <div class="letter">G</div>
+            <div class="letter">O</div>
+        </div>
+        @for (row of rows; track row) {
+        <div class="number-row">
+            @for (column of columns; track column) {
+            <div class="number" [ngClass]="{ selected:  coordinateSelected(row, column)}">
+                <ng-container *ngIf="row === 2 && column === 2">
+                    Free Space
+                </ng-container>
+            </div>
+            }
+        </div>
+        }
+    </div>
+</div>

@@ -1,8 +1,14 @@
-<bng-called-numbers [balls]="(game$ | async)?.balls" [editable]="true"></bng-called-numbers>
-<button mat-raised-button (click)="newGame()">New Game</button>
-<button mat-raised-button (click)="deleteGame()">Delete Game</button>
-<mat-select [value]="game$ | async" (selectionChange)="loadGame($event.value)">
-    @for (game of games$ | async; track game) {
-    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
-    }
-</mat-select>
+<div class="container">
+    <bng-called-numbers [balls]="(game$ | async)?.balls" [editable]="true"></bng-called-numbers>
+    <div class="column" stretch>
+        <div class="row" start>
+            <button mat-raised-button (click)="newGame()">New Game</button>
+            <button mat-raised-button (click)="deleteGame()">Delete Game</button>
+        </div>
+        <mat-select [value]="game$ | async" (selectionChange)="loadGame($event.value)">
+            @for (game of games$ | async; track game) {
+            <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
+            }
+        </mat-select>
+    </div>
+</div>

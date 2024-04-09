@@ -4,15 +4,15 @@ import { Ball } from "../models/ball";
 import { Balls } from "../models/balls";
 import { Game } from "../models/game";
 import { Letters } from "../models/letters";
-import { winningPatterns } from "../models/winning-patterns";
+import { WinPatterns } from "../models/win-patterns";
 
 @Injectable({
     providedIn: 'root'
 })
 export class GameService {
-    currentGame$: BehaviorSubject<Game | undefined> = new BehaviorSubject<Game | undefined>(undefined);
+    currentGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
-    lastCall$: BehaviorSubject<Ball | undefined> = new BehaviorSubject<Ball | undefined>(undefined);
+    lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     channel = new BroadcastChannel('game-channel');
 
     private readonly _currentGameKey = 'current-game';
@@ -46,7 +46,7 @@ export class GameService {
 
     private updateLastCall() {
         const currentGame = this.currentGame$.value;
-        this.lastCall$.next(currentGame && currentGame.calls.length > 0 ? currentGame.calls[currentGame.calls.length - 1] : undefined);
+        this.lastCall$.next(currentGame && currentGame.calls.length > 0 ? currentGame.calls[currentGame.calls.length - 1] : null);
     }
 
     private saveCurrentGame(): void {
@@ -70,7 +70,7 @@ export class GameService {
         const game = {
             gameNumber: this.games$.value.length + 1,
             gameColor: 'red',
-            winningPatterns: winningPatterns[0],
+            WinPattern: WinPatterns[0],
             balls: {
                 [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
                 [Letters.I]: Balls.filter(ball => ball.letter === Letters.I).map(ball => ({ ...ball, called: false })),
@@ -119,7 +119,7 @@ export class GameService {
         this.saveGames();
 
         if (this.currentGame$.value === game) {
-            this.currentGame$.next(undefined);
+            this.currentGame$.next(null);
             localStorage.removeItem(this._currentGameKey);
         }
 

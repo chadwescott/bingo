@@ -1,6 +1,6 @@
-import { WinningPattern } from "./winning-pattern";
+import { WinPattern } from "./win-pattern";
 
-export const winningPatterns: WinningPattern[] =
+export const WinPatterns: WinPattern[] =
     [
         {
             name: 'Straight Line',
