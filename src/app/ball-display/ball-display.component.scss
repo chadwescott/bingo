@@ -1,6 +1,5 @@
 .ball {
     --size: calc(100vw / 16);
-    --border-color: black;
     border-radius: 50%;
     background-color: var(--ball-color);
     position: relative;
@@ -10,7 +9,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: solid 1px var(--border-color);
+    box-shadow: 0.125rem 0.125rem 0.5rem 0.125rem rgba(0, 0, 0, 0.2);
+
+    &.large {
+        --size: calc(100vw / 12);
+    }
 
     &::before {
         --position: 30%;
@@ -32,47 +35,61 @@
 
     &[ball-letter='B'] {
         --ball-color: var(--b-ball-color);
+        --inner-border-color: var(--ball-color);
+        --outer-border-color: var(--white-color);
     }
 
     &[ball-letter='I'] {
         --ball-color: var(--i-ball-color);
+        --inner-border-color: var(--ball-color);
+        --outer-border-color: var(--white-color);
     }
     &[ball-letter='N'] {
         --ball-color: var(--n-ball-color);
+        --inner-border-color: red;
+        --outer-border-color: rgb(0 0 0 / 0);
     }
     &[ball-letter='G'] {
         --ball-color: var(--g-ball-color);
+        --inner-border-color: var(--ball-color);
+        --outer-border-color: var(--white-color);
     }
     &[ball-letter='O'] {
         --ball-color: var(--o-ball-color);
+        --inner-border-color: var(--ball-color);
+        --outer-border-color: var(--white-color);
     }
 
     .ball-inner {
-        --size: 66%;
+        --ball-size: 66%;
+        --border-size: 0.25rem;
         color: var(--black-color);
         background: var(--white-color);
         border-radius: 50%;
-        height: var(--size);
-        width: var(--size);
+        height: var(--ball-size);
+        width: var(--ball-size);
         display: flex;
         flex-direction: column;
         gap: 0;
         align-items: center;
         justify-content: center;
-        border: solid 1px var(--border-color);
+        outline: solid var(--border-size) var(--outer-border-color);
+        border: solid var(--border-size) var(--inner-border-color);
 
         > div {
-            margin: -0.1vw;
+            margin: -0.05rem;
             font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;
         }
 
         .ball-letter {
             font-size: 1.25vw;
+            font-size: calc(var(--size) * 0.2);
         }
 
         .ball-number {
             font-size: 2vw;
+            font-size: calc(var(--size) * 0.3);
         }
     }
 }

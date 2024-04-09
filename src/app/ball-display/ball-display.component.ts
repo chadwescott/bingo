@@ -8,4 +8,5 @@ import { Ball } from '../models/ball';
 })
 export class BallDisplayComponent {
   @Input() ball: Ball | undefined;
+  @Input() largeSize = false;
 }

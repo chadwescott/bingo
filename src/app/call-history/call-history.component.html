@@ -1,8 +1,18 @@
-<div class="call-history">
-    <ng-container *ngFor="let call of calls?.reverse()?.slice(0, 12); let i = index">
-        <div>
-            <bng-ball-display [ball]="call"></bng-ball-display>
-            <div *ngIf="i === 0">Current Call</div>
+<div class="container" *ngIf="calls && calls.length > 0">
+    <div>
+        <bng-ball-display [ball]="calls.reverse()[0]" [largeSize]="true"></bng-ball-display>
+        <div>Current Call</div>
+    </div>
+    <div>
+        <div class="call-history">
+            <div *ngFor="let call of calls.slice(1, 6); let i = index">
+                <bng-ball-display [ball]="call"></bng-ball-display>
+            </div>
         </div>
-    </ng-container>
+        <div>Previous 5 Calls</div>
+    </div>
+    <div class="total-calls">
+        <div>Total Calls</div>
+        <div class="large">{{ calls.length }}</div>
+    </div>
 </div>

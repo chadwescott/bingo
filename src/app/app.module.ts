@@ -14,6 +14,7 @@ import { CalledNumbersComponent } from './called-numbers/called-numbers.componen
 import { ControlPanelComponent } from './control-panel/control-panel.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { WinningPatternsComponent } from './winning-patterns/winning-patterns.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { WinningPatternsComponent } from './winning-patterns/winning-patterns.co
     CalledNumbersComponent,
     CallHistoryComponent,
     DashboardComponent,
-    WinningPatternsComponent
+    WinningPatternsComponent,
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,
