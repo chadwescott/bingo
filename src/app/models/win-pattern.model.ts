@@ -1,4 +1,4 @@
-import { Coordinate } from "./coordinate";
+import { Coordinate } from "./coordinate.model";
 
 export interface WinPattern {
     name: string;

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Ball } from '../models/ball';
-import { Letters } from '../models/letters';
+import { Ball } from '../models/ball.model';
+import { Letters } from '../models/letters.model';
 import { GameService } from '../services/game.service';
 
 @Component({

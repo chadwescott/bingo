@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Ball } from '../models/ball';
+import { Ball } from '../models/ball.model';
 
 @Component({
   selector: 'bng-ball-display',

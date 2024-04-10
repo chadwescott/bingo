@@ -1,4 +1,4 @@
-import { Letters } from "./letters";
+import { Letters } from "./letters.model";
 
 export interface Ball {
     letter: Letters;

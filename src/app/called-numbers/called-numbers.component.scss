@@ -1,18 +1,20 @@
 .balls {
+    position: relative;
+    background: var(--primary-color);
+    --box-size: calc(100vw / 18);
+    width: calc(100vw - var(--box-size) * 2);
     border: solid var(--border-width) var(--border-color);
-    width: calc(100vw - (100vw / 18) * 2);
 }
 
 .ball-row {
     display: flex;
-    --box-size: calc(100vw / 18);
     justify-content: center;
 
     > div {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: solid var(--border-width) var(--border-color);
         background: var(--black-color);
         color: var(--not-called-color);
         font-size: 4vw;

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
-import { Coordinate } from '../models/coordinate';
-import { WinPattern } from '../models/win-pattern';
+import { Coordinate } from '../models/coordinate.model';
+import { WinPattern } from '../models/win-pattern.model';
 
 @Component({
   selector: 'bng-win-patterns',
@@ -20,8 +20,14 @@ export class WinPatternsComponent {
 
   ngOnInit() {
     this.subscription = interval(this.delayMs).subscribe(() => {
+      if (this.pattern?.coordinates?.length === 0) {
+        this.patternIndex = 0;
+        this.currentCoordinates = [];
+        return;
+      }
+
+      this.patternIndex = (this.patternIndex + 1) % (this.pattern?.coordinates?.length ?? 0);
       this.currentCoordinates = this.pattern?.coordinates[this.patternIndex] ?? [];
-      this.patternIndex = (this.patternIndex + 1) % (this.pattern?.coordinates.length ?? 0);
     });
   }
 

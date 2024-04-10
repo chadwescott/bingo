@@ -1,5 +1,5 @@
-import { Ball } from "./ball";
-import { Letters } from "./letters";
+import { Ball } from "./ball.model";
+import { Letters } from "./letters.model";
 
 export const Balls: Ball[] = [
     { letter: Letters.B, number: 1, called: false },

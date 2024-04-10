@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Game } from '../models/game';
+import { Game } from '../models/game.model';
 
 @Component({
   selector: 'bng-game-info',

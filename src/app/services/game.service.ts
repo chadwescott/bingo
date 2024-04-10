@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { Ball } from "../models/ball";
-import { Balls } from "../models/balls";
-import { Game } from "../models/game";
-import { Letters } from "../models/letters";
-import { WinPattern } from "../models/win-pattern";
-import { WinPatterns } from "../models/win-patterns";
+import { Ball } from "../models/ball.model";
+import { Balls } from "../models/balls.model";
+import { defaultGameOptions as DefaultGameOptions, GameOptions } from "../models/game-options.model";
+import { Game } from "../models/game.model";
+import { Letters } from "../models/letters.model";
+import { WinPattern } from "../models/win-pattern.model";
+import { winPatterns } from "../models/win-patterns.model";
 
 @Injectable({
     providedIn: 'root'
@@ -22,9 +23,11 @@ export class GameService {
 
     constructor() {
         this.channel.addEventListener('message', event => {
-            const currentGame = event.data;
+            const currentGame = event.data as Game;
             this.currentGame$.next(currentGame);
             this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
+
+            document.documentElement.style.setProperty('--board-color', currentGame.options.boardColorCode);
             this.updatePreviousCalls();
         });
 
@@ -39,13 +42,17 @@ export class GameService {
 
         const currentGameJson = localStorage.getItem(this._currentGameKey);
         if (currentGameJson) {
-            const currentGame = JSON.parse(currentGameJson);
-            currentGame.winPattern = WinPatterns.find(wp => wp.name === currentGame.winPattern.name);
-            this.currentGame$.next(currentGame);
-            this.updateLastCall();
-            this.updatePreviousCalls();
+            try {
+                const currentGame = JSON.parse(currentGameJson) as Game;
+                currentGame.options.winPattern = winPatterns.find(wp => wp.name === currentGame.options.winPattern.name) ?? winPatterns[0];
+                this.currentGame$.next(currentGame);
+                this.updateLastCall();
+                this.updatePreviousCalls();
+            } catch (error) {
+                this.createGame(1, DefaultGameOptions);
+            }
         } else {
-            this.createGame();
+            this.createGame(1, DefaultGameOptions);
         }
         this.saveCurrentGame();
     }
@@ -76,8 +83,10 @@ export class GameService {
         localStorage.setItem(this._currentGameKey, JSON.stringify(currentGame));
         this.channel.postMessage(currentGame);
 
+        document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColorCode);
+
         const games = this.games$.value;
-        games[games.findIndex(g => g.gameNumber === currentGame.gameNumber)] = currentGame;
+        games[games.findIndex(g => g.startTime === currentGame.startTime)] = currentGame;
         this.games$.next(games);
         this.saveGames();
     }
@@ -86,12 +95,10 @@ export class GameService {
         localStorage.setItem(this._gamesKey, JSON.stringify(this.games$.value));
     }
 
-    createGame(number = null, winPattern = WinPatterns[0]): void {
+    createGame(gameNumber: number, options: GameOptions): void {
         const game = {
-            gameNumber: number ?? this.games$.value.length + 1,
-            boardColorName: 'red',
-            gameColorCode: '#f00',
-            winPattern: winPattern,
+            gameNumber: gameNumber,
+            options: options,
             startTime: new Date(),
             balls: {
                 [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
@@ -105,8 +112,9 @@ export class GameService {
 
         this.currentGame$.next(game);
         this.saveCurrentGame();
-        // this.games$.value.push(game);
-        // this.saveGames();
+
+        this.games$.value.push(game);
+        this.saveGames();
     }
 
     selectGame(game: Game): void {
@@ -132,7 +140,8 @@ export class GameService {
         this.saveCurrentGame();
     }
 
-    loadGame(game: Game): void {
+    updateGame(game: Game): void {
+        console.log(game);
         this.currentGame$.next(game);
         this.saveCurrentGame();
     }
@@ -141,12 +150,12 @@ export class GameService {
         const currentGame = this.currentGame$.value;
         if (currentGame === null) { return; }
 
-        currentGame.winPattern = winPattern;
+        currentGame.options.winPattern = winPattern;
         this.saveCurrentGame();
     }
 
     deleteGame(game: Game): void {
-        this.games$.next(this.games$.value.filter(g => g.gameNumber !== game.gameNumber));
+        this.games$.next(this.games$.value.filter(g => g.startTime !== game.startTime));
         this.saveGames();
 
         if (this.currentGame$.value === game) {

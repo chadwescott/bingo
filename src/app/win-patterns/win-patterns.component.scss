@@ -3,7 +3,6 @@
     flex-direction: column;
     --box-size: calc(100vw / 32);
     --border-size: 0.125rem;
-    --board-color: blue;
     border: solid var(--border-size) var(--board-color);
 
     > div {

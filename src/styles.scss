@@ -5,8 +5,8 @@
 $dark-theme: mat.define-dark-theme(
     (
         color: (
-            primary: mat.define-palette(mat.$pink-palette),
-            accent: mat.define-palette(mat.$blue-grey-palette)
+            primary: mat.define-palette(mat.$red-palette),
+            accent: mat.define-palette(mat.$orange-palette)
         ),
         // Only include `typography` and `density` in the default dark theme.
         typography: mat.define-typography-config(),
@@ -26,14 +26,14 @@ $light-theme: mat.define-light-theme(
 
 // Apply the dark theme by default
 @include mat.core-theme($dark-theme);
-@include mat.button-theme($dark-theme);
+@include mat.all-component-themes($dark-theme);
 
 // Apply the light theme only when the user prefers light themes.
 @media (prefers-color-scheme: light) {
     // Use the `-color` mixins to only apply color styles without reapplying the same
     // typography and density styles.
     @include mat.core-color($light-theme);
-    @include mat.button-color($light-theme);
+    @include mat.all-component-themes($light-theme);
 }
 
 :root {
@@ -60,8 +60,8 @@ $light-theme: mat.define-light-theme(
     --n-ball-text-color: black;
     --g-ball-text-color: white;
     --o-ball-text-color: black;
-    --border-color: rgb(100 50 50);
-    --border-width: 0.125rem;
+    --border-color: rgb(255 255 255 / 0.4);
+    --border-width: 0.1vw;
     --gap-size: 0.75vw;
 }
 
@@ -84,8 +84,7 @@ body {
     font-size: 1.5vw;
     background: rgb(0 0 0 / 0.5);
     padding: var(--gap-size);
-    border-radius: 1rem;
-    border: solid calc(var(--border-width) * 2) var(--border-color);
+    border: solid var(--border-width) var(--border-color);
     height: 100%;
 }
 

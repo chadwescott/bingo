@@ -1,15 +1,39 @@
 <div class="container">
-    <bng-called-numbers [balls]="(game$ | async)?.balls" [editable]="true"></bng-called-numbers>
+    <bng-called-numbers [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
     <div class="column" stretch>
         <div class="row" start>
+            <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
             <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
+            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
         </div>
-        <div>
+        <div class="row" start>
+            <mat-form-field>
+                <mat-label>Game Number</mat-label>
+                <input matInput [(ngModel)]="gameNumber" type="number" />
+            </mat-form-field>
             <mat-form-field>
                 <mat-label>Win Pattern</mat-label>
-                <mat-select [value]="(game$ | async)?.winPattern" (selectionChange)="updateWinPattern($event.value)">
+                <mat-select [(value)]="gameOptions.winPattern">
                     @for (winPattern of winPatterns; track winPattern) {
                     <mat-option [value]="winPattern">{{ winPattern.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Board Color</mat-label>
+                <input matInput [(ngModel)]="gameOptions.boardColorCode" type="color" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Board Color</mat-label>
+                <input matInput [(ngModel)]="gameOptions.boardColorName" />
+            </mat-form-field>
+        </div>
+        <div class="row" start>
+            <mat-form-field>
+                <mat-label>Load Game</mat-label>
+                <mat-select [(value)]="currentGame">
+                    @for (game of games$ | async; track game) {
+                    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
                     }
                 </mat-select>
             </mat-form-field>
