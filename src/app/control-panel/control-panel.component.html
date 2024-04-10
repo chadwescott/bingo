@@ -1,12 +1,29 @@
 <div class="container">
-    <bng-called-numbers [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
     <div class="column" stretch>
-        <div class="row" start>
-            <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
-            <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
-            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
+        <div class="card row" start>
+            <mat-form-field>
+                <mat-label>Background Color</mat-label>
+                <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Text Color</mat-label>
+                <input matInput [(ngModel)]="theme.textColor" type="color" />
+            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
         </div>
+    </div>
+    <bng-called-numbers [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
+    <div class="card">
         <div class="row" start>
+            <mat-form-field>
+                <mat-label>Load Game</mat-label>
+                <mat-select [(value)]="currentGame" (selectionChange)="loadGame($event.value)">
+                    @for (game of games$ | async; track game) {
+                    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
             <mat-form-field>
                 <mat-label>Game Number</mat-label>
                 <input matInput [(ngModel)]="gameNumber" type="number" />
@@ -29,14 +46,9 @@
             </mat-form-field>
         </div>
         <div class="row" start>
-            <mat-form-field>
-                <mat-label>Load Game</mat-label>
-                <mat-select [(value)]="currentGame">
-                    @for (game of games$ | async; track game) {
-                    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
+            <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
+            <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
+            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
         </div>
     </div>
 </div>

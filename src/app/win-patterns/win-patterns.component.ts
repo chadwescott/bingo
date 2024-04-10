@@ -19,6 +19,7 @@ export class WinPatternsComponent {
   subscription: Subscription | null = null;
 
   ngOnInit() {
+    this.currentCoordinates = this.pattern?.coordinates[this.patternIndex] ?? [];
     this.subscription = interval(this.delayMs).subscribe(() => {
       if (this.pattern?.coordinates?.length === 0) {
         this.patternIndex = 0;

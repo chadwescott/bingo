@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { defaultGameOptions } from '../models/game-options.model';
 import { Game } from '../models/game.model';
+import { Theme, defaultTheme } from '../models/theme.model';
 import { WinPattern } from '../models/win-pattern.model';
 import { winPatterns } from '../models/win-patterns.model';
 import { GameService } from '../services/game.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'bng-control-panel',
@@ -17,24 +19,29 @@ export class ControlPanelComponent {
   winPatterns = winPatterns;
   gameNumber: number = 1;
   gameOptions = defaultGameOptions;
-  subscription$: Subscription | null = null;
+  subscriptions$: Subscription[] = [];
+  theme: Theme = defaultTheme;
 
-  constructor(private readonly gameService: GameService) {
+  constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
   }
 
   ngOnInit() {
-    this.subscription$ = this.gameService.currentGame$.subscribe(game => {
+    this.subscriptions$.push(this.gameService.currentGame$.subscribe(game => {
       this.currentGame = game;
+      if (!game) { return; }
+      this.gameNumber = game.gameNumber;
       this.gameOptions = {
-        boardColorCode: game?.options?.boardColorCode ?? this.gameOptions.boardColorCode,
-        boardColorName: game?.options?.boardColorName ?? this.gameOptions.boardColorName,
-        winPattern: game?.options?.winPattern ?? this.gameOptions.winPattern
+        boardColorCode: game.options.boardColorCode,
+        boardColorName: game.options.boardColorName,
+        winPattern: game.options.winPattern
       };
-    });
+    }));
+
+    this.subscriptions$.push(this.themeService.theme$.subscribe(theme => this.theme = theme));
   }
 
   ngOnDestroy() {
-    this.subscription$?.unsubscribe();
+    this.subscriptions$.map(s => s.unsubscribe());
   }
 
   newGame(): void {
@@ -60,6 +67,11 @@ export class ControlPanelComponent {
   }
 
   loadGame(game: Game): void {
+    this.currentGame = game;
     this.gameService.updateGame(game);
+  }
+
+  updateTheme(): void {
+    this.themeService.updateTheme(this.theme);
   }
 }

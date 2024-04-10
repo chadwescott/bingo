@@ -37,9 +37,8 @@ $light-theme: mat.define-light-theme(
 }
 
 :root {
-    --primary-color: #611921;
+    --primary-color: #501414;
     --text-color: #fff;
-    --secondary-color: rgb(80 20 20);
     --success-color: #28a745;
     --info-color: #17a2b8;
     --warning-color: #ffc107;
@@ -75,7 +74,7 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    background: var(--secondary-color);
+    background: var(--primary-color);
     color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -113,6 +112,10 @@ body {
 
     &[stretch] {
         justify-content: stretch;
+    }
+
+    &[space-between] {
+        justify-content: space-between;
     }
 
     &[start] {

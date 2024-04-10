@@ -16,10 +16,10 @@ export class GameService {
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
     lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     previousCalls$: BehaviorSubject<Ball[]> = new BehaviorSubject<Ball[]>([]);
-    channel = new BroadcastChannel('game-channel');
+    channel = new BroadcastChannel('bingo-game-channel');
 
-    private readonly _currentGameKey = 'current-game';
-    private readonly _gamesKey = 'games';
+    private readonly _currentGameKey = 'bingo-current-game';
+    private readonly _gamesKey = 'bingo-games';
 
     constructor() {
         this.channel.addEventListener('message', event => {
@@ -35,16 +35,18 @@ export class GameService {
     }
 
     private loadData(): void {
-        const games = localStorage.getItem(this._gamesKey);
-        if (games) {
-            this.games$.next(JSON.parse(games));
+        const gamesJson = localStorage.getItem(this._gamesKey);
+        if (gamesJson) {
+            const games = JSON.parse(gamesJson) as Game[];
+            games.map(game => this.updateGameWinPattern(game));
+            this.games$.next(games);
         }
 
         const currentGameJson = localStorage.getItem(this._currentGameKey);
         if (currentGameJson) {
             try {
                 const currentGame = JSON.parse(currentGameJson) as Game;
-                currentGame.options.winPattern = winPatterns.find(wp => wp.name === currentGame.options.winPattern.name) ?? winPatterns[0];
+                this.updateGameWinPattern(currentGame);
                 this.currentGame$.next(currentGame);
                 this.updateLastCall();
                 this.updatePreviousCalls();
@@ -55,6 +57,10 @@ export class GameService {
             this.createGame(1, DefaultGameOptions);
         }
         this.saveCurrentGame();
+    }
+
+    private updateGameWinPattern(game: Game): void {
+        game.options.winPattern = winPatterns.find(wp => wp.name === game.options.winPattern.name) ?? winPatterns[0];
     }
 
     private updateLastCall() {
@@ -141,7 +147,6 @@ export class GameService {
     }
 
     updateGame(game: Game): void {
-        console.log(game);
         this.currentGame$.next(game);
         this.saveCurrentGame();
     }
