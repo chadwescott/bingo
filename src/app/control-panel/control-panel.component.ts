@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Game } from '../models/game';
+import { WinPattern } from '../models/win-pattern';
 import { WinPatterns } from '../models/win-patterns';
 import { GameService } from '../services/game.service';
 
@@ -17,6 +18,11 @@ export class ControlPanelComponent {
 
   newGame(): void {
     this.gameService.createGame();
+  }
+
+  updateWinPattern(winPattern: WinPattern): void {
+    console.log(winPattern);
+    this.gameService.updateWinPattern(winPattern);
   }
 
   deleteGame(): void {

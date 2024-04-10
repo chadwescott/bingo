@@ -7,7 +7,7 @@ export interface Game {
     boardColorName: string;
     gameColorCode: string;
     startTime: Date;
-    WinPattern: WinPattern;
+    winPattern: WinPattern;
     balls: { [key in Letters]: Ball[] };
     calls: Ball[];
 }

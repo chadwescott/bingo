@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Game } from '../models/game';
+import { Component } from '@angular/core';
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'bng-previous-calls',
@@ -7,5 +7,5 @@ import { Game } from '../models/game';
   styleUrl: './previous-calls.component.scss'
 })
 export class PreviousCallsComponent {
-  @Input() game: Game | null = null;
+  constructor(public gameService: GameService) { }
 }

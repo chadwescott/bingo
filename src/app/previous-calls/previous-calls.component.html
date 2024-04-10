@@ -1,6 +1,6 @@
 <div class="card column">
     <div class="ball-row">
-        <ng-container *ngFor="let call of game?.calls?.reverse()?.slice(1, 6); let i = index">
+        <ng-container *ngFor="let call of gameService.previousCalls$ | async; let i = index">
             <bng-ball-display [ball]="call"></bng-ball-display>
         </ng-container>
     </div>

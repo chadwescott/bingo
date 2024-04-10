@@ -3,20 +3,11 @@
     <div class="column" stretch>
         <div class="row" start>
             <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
-            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
         </div>
         <div>
-            <!-- <mat-form-field>
-                <mat-label>Game Number</mat-label>
-                <mat-select [value]="game$ | async" (selectionChange)="loadGame($event.value)">
-                    @for (game of games$ | async; track game) {
-                    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field> -->
             <mat-form-field>
                 <mat-label>Win Pattern</mat-label>
-                <mat-select [value]="(game$ | async)?.WinPattern">
+                <mat-select [value]="(game$ | async)?.winPattern" (selectionChange)="updateWinPattern($event.value)">
                     @for (winPattern of winPatterns; track winPattern) {
                     <mat-option [value]="winPattern">{{ winPattern.name }}</mat-option>
                     }

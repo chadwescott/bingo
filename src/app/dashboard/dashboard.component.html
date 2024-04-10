@@ -6,8 +6,8 @@
         </div>
         <bng-current-call class="current-call" [call]="gameService.lastCall$ | async"></bng-current-call>
         <bng-game-info class="game-info" [game]="gameService.currentGame$ | async"></bng-game-info>
-        <bng-previous-calls class="previous-calls" [game]="gameService.currentGame$ | async"></bng-previous-calls>
+        <bng-previous-calls class="previous-calls"></bng-previous-calls>
         <bng-win-patterns class="win-patterns"
-            [pattern]="(gameService.currentGame$ | async)?.WinPattern ?? null"></bng-win-patterns>
+            [pattern]="(gameService.currentGame$ | async)?.winPattern ?? null"></bng-win-patterns>
     </div>
 </div>
