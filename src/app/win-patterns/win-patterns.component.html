@@ -8,9 +8,9 @@
             <div class="letter">G</div>
             <div class="letter">O</div>
         </div>
-        @for (row of rows; track row) {
+        @for (column of columns; track column) {
         <div class="number-row">
-            @for (column of columns; track column) {
+            @for (row of rows; track row) {
             <div class="number" [ngClass]="{ selected:  coordinateSelected(row, column)}">
                 <ng-container *ngIf="row === 2 && column === 2">
                     Free Space

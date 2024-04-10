@@ -21,7 +21,6 @@ export class ControlPanelComponent {
   }
 
   updateWinPattern(winPattern: WinPattern): void {
-    console.log(winPattern);
     this.gameService.updateWinPattern(winPattern);
   }
 
