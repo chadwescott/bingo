@@ -93,6 +93,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: var(--gap-size);
+    flex-wrap: wrap;
 }
 
 .column {

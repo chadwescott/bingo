@@ -1,5 +1,5 @@
 
-export const FourCornerPostageStamps = {
+export const FourCornerPostageStampsPattern = {
     name: '4 Corner Postage Stamps',
     coordinates: [
         [
