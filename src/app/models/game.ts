@@ -4,7 +4,9 @@ import { WinPattern } from "./win-pattern";
 
 export interface Game {
     gameNumber: number;
-    gameColor: string;
+    boardColorName: string;
+    gameColorCode: string;
+    startTime: Date;
     WinPattern: WinPattern;
     balls: { [key in Letters]: Ball[] };
     calls: Ball[];

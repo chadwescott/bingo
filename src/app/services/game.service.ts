@@ -66,11 +66,13 @@ export class GameService {
         localStorage.setItem(this._gamesKey, JSON.stringify(this.games$.value));
     }
 
-    createGame(): void {
+    createGame(number = null, winPattern = WinPatterns[0]): void {
         const game = {
-            gameNumber: this.games$.value.length + 1,
-            gameColor: 'red',
-            WinPattern: WinPatterns[0],
+            gameNumber: number ?? this.games$.value.length + 1,
+            boardColorName: 'red',
+            gameColorCode: '#f00',
+            WinPattern: winPattern,
+            startTime: new Date(),
             balls: {
                 [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
                 [Letters.I]: Balls.filter(ball => ball.letter === Letters.I).map(ball => ({ ...ball, called: false })),
@@ -83,8 +85,8 @@ export class GameService {
 
         this.currentGame$.next(game);
         this.saveCurrentGame();
-        this.games$.value.push(game);
-        this.saveGames();
+        // this.games$.value.push(game);
+        // this.saveGames();
     }
 
     selectGame(game: Game): void {

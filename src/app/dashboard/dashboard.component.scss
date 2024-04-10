@@ -3,23 +3,43 @@
     margin: var(--gap-size) 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     gap: var(--gap-size);
-
-    > div {
-        display: flex;
-        gap: var(gap-size);
-        justify-content: space-between;
-    }
-
-    .column {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        gap: var(gap-size);
-    }
 
     .footer {
         text-transform: uppercase;
+        display: grid;
+        gap: var(--gap-size);
+        align-items: start;
+
+        grid-template-columns: auto 1fr max-content;
+        grid-template-rows: auto 1fr;
+
+        grid-template-areas:
+            'total-calls game-info win-patterns'
+            'current-call previous-calls win-patterns';
+
+        > * {
+            height: 100%;
+        }
+
+        .total-calls {
+            grid-area: total-calls;
+        }
+
+        .game-info {
+            grid-area: game-info;
+        }
+
+        .win-patterns {
+            grid-area: win-patterns;
+        }
+
+        .current-call {
+            grid-area: current-call;
+        }
+
+        .previous-calls {
+            grid-area: previous-calls;
+        }
     }
 }

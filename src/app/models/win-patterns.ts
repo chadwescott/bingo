@@ -1,94 +1,11 @@
 import { WinPattern } from "./win-pattern";
+import { FullBoardPattern } from "./win-patterns/full-board.pattern";
+import { StraightLinePattern } from "./win-patterns/straight-line.pattern";
+import { XPattern } from "./win-patterns/x.pattern";
 
 export const WinPatterns: WinPattern[] =
     [
-        {
-            name: 'Straight Line',
-            coordinates: [
-                [
-                    { x: 0, y: 0 },
-                    { x: 0, y: 1 },
-                    { x: 0, y: 2 },
-                    { x: 0, y: 3 },
-                    { x: 0, y: 4 },
-                ],
-                [
-                    { x: 1, y: 0 },
-                    { x: 1, y: 1 },
-                    { x: 1, y: 2 },
-                    { x: 1, y: 3 },
-                    { x: 1, y: 4 },
-                ],
-                [
-                    { x: 2, y: 0 },
-                    { x: 2, y: 1 },
-                    { x: 2, y: 2 },
-                    { x: 2, y: 3 },
-                    { x: 2, y: 4 },
-                ],
-                [
-                    { x: 3, y: 0 },
-                    { x: 3, y: 1 },
-                    { x: 3, y: 2 },
-                    { x: 3, y: 3 },
-                    { x: 3, y: 4 },
-                ],
-                [
-                    { x: 4, y: 0 },
-                    { x: 4, y: 1 },
-                    { x: 4, y: 2 },
-                    { x: 4, y: 3 },
-                    { x: 4, y: 4 },
-                ],
-                [
-                    { x: 0, y: 0 },
-                    { x: 1, y: 0 },
-                    { x: 2, y: 0 },
-                    { x: 3, y: 0 },
-                    { x: 4, y: 0 },
-                ],
-                [
-                    { x: 0, y: 1 },
-                    { x: 1, y: 1 },
-                    { x: 2, y: 1 },
-                    { x: 3, y: 1 },
-                    { x: 4, y: 1 },
-                ],
-                [
-                    { x: 0, y: 2 },
-                    { x: 1, y: 2 },
-                    { x: 2, y: 2 },
-                    { x: 3, y: 2 },
-                    { x: 4, y: 2 },
-                ],
-                [
-                    { x: 0, y: 3 },
-                    { x: 1, y: 3 },
-                    { x: 2, y: 3 },
-                    { x: 3, y: 3 },
-                    { x: 4, y: 3 },
-                ],
-                [
-                    { x: 0, y: 4 },
-                    { x: 1, y: 4 },
-                    { x: 2, y: 4 },
-                    { x: 3, y: 4 },
-                    { x: 4, y: 4 },
-                ],
-                [
-                    { x: 0, y: 0 },
-                    { x: 1, y: 1 },
-                    { x: 2, y: 2 },
-                    { x: 3, y: 3 },
-                    { x: 4, y: 4 },
-                ],
-                [
-                    { x: 0, y: 4 },
-                    { x: 1, y: 3 },
-                    { x: 2, y: 2 },
-                    { x: 3, y: 1 },
-                    { x: 4, y: 0 },
-                ]
-            ]
-        }
+        StraightLinePattern,
+        FullBoardPattern,
+        XPattern
     ];

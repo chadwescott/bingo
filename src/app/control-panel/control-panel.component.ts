@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Game } from '../models/game';
+import { WinPatterns } from '../models/win-patterns';
 import { GameService } from '../services/game.service';
 
 @Component({
@@ -9,13 +10,9 @@ import { GameService } from '../services/game.service';
 })
 export class ControlPanelComponent {
   game$ = this.gameService.currentGame$;
-  games$ = this.gameService.games$;
+  winPatterns = WinPatterns;
 
   constructor(private readonly gameService: GameService) {
-  }
-
-  ngOnInit() {
-    this.game$.subscribe(g => console.log(g));
   }
 
   newGame(): void {

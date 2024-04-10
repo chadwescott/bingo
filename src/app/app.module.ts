@@ -4,8 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BallDisplayComponent } from './ball-display/ball-display.component';
@@ -39,9 +40,10 @@ import { WinPatternsComponent } from './win-patterns/win-patterns.component';
     BrowserModule,
     FormsModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatSelectModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, provideAnimations()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

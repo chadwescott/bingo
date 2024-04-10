@@ -1,14 +1,13 @@
 <div class="container">
     <bng-called-numbers [balls]="(gameService.currentGame$ | async)?.balls"></bng-called-numbers>
     <div class="footer">
-        <div class="column" stretch>
-            <bng-total-calls class="card column" [game]="gameService.currentGame$ | async"></bng-total-calls>
-            <bng-current-call class="card column" [call]="gameService.lastCall$ | async"></bng-current-call>
+        <div class="total-calls">
+            <bng-total-calls [game]="gameService.currentGame$ | async"></bng-total-calls>
         </div>
-        <div class="column" stretch>
-            <bng-game-info [game]="gameService.currentGame$ | async"></bng-game-info>
-            <bng-previous-calls [game]="gameService.currentGame$ | async"></bng-previous-calls>
-        </div>
-        <bng-win-patterns [pattern]="(gameService.currentGame$ | async)?.WinPattern ?? null"></bng-win-patterns>
+        <bng-current-call class="current-call" [call]="gameService.lastCall$ | async"></bng-current-call>
+        <bng-game-info class="game-info" [game]="gameService.currentGame$ | async"></bng-game-info>
+        <bng-previous-calls class="previous-calls" [game]="gameService.currentGame$ | async"></bng-previous-calls>
+        <bng-win-patterns class="win-patterns"
+            [pattern]="(gameService.currentGame$ | async)?.WinPattern ?? null"></bng-win-patterns>
     </div>
 </div>

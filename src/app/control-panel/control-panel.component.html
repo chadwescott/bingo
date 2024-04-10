@@ -2,13 +2,26 @@
     <bng-called-numbers [balls]="(game$ | async)?.balls" [editable]="true"></bng-called-numbers>
     <div class="column" stretch>
         <div class="row" start>
-            <button mat-raised-button (click)="newGame()">New Game</button>
-            <button mat-raised-button (click)="deleteGame()">Delete Game</button>
+            <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
+            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
         </div>
-        <mat-select [value]="game$ | async" (selectionChange)="loadGame($event.value)">
-            @for (game of games$ | async; track game) {
-            <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
-            }
-        </mat-select>
+        <div>
+            <!-- <mat-form-field>
+                <mat-label>Game Number</mat-label>
+                <mat-select [value]="game$ | async" (selectionChange)="loadGame($event.value)">
+                    @for (game of games$ | async; track game) {
+                    <mat-option [value]="game">{{ game.gameNumber }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field> -->
+            <mat-form-field>
+                <mat-label>Win Pattern</mat-label>
+                <mat-select [value]="(game$ | async)?.WinPattern">
+                    @for (winPattern of winPatterns; track winPattern) {
+                    <mat-option [value]="winPattern">{{ winPattern.name }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
     </div>
 </div>
