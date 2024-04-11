@@ -65,6 +65,11 @@ export class ControlPanelComponent {
     this.gameOptions.winPattern = winPattern;
   }
 
+  resetGame(): void {
+    if (!this.currentGame) { return; }
+    this.gameService.resetGame(this.currentGame);
+  }
+
   deleteGame(): void {
     if (!this.currentGame) { return; }
     this.gameService.deleteGame(this.currentGame);

@@ -104,17 +104,11 @@ export class GameService {
     }
 
     createGame(gameNumber: number, options: GameOptions): void {
-        const game = {
+        const game: Game = {
             gameNumber: gameNumber,
             options: options,
             startTime: new Date(),
-            balls: {
-                [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
-                [Letters.I]: Balls.filter(ball => ball.letter === Letters.I).map(ball => ({ ...ball, called: false })),
-                [Letters.N]: Balls.filter(ball => ball.letter === Letters.N).map(ball => ({ ...ball, called: false })),
-                [Letters.G]: Balls.filter(ball => ball.letter === Letters.G).map(ball => ({ ...ball, called: false })),
-                [Letters.O]: Balls.filter(ball => ball.letter === Letters.O).map(ball => ({ ...ball, called: false }))
-            },
+            balls: this.getBalls(),
             calls: []
         };
 
@@ -123,6 +117,16 @@ export class GameService {
 
         this.games$.value.push(game);
         this.saveGames();
+    }
+
+    private getBalls(): { [key in Letters]: Ball[] } {
+        return {
+            [Letters.B]: Balls.filter(ball => ball.letter === Letters.B).map(ball => ({ ...ball, called: false })),
+            [Letters.I]: Balls.filter(ball => ball.letter === Letters.I).map(ball => ({ ...ball, called: false })),
+            [Letters.N]: Balls.filter(ball => ball.letter === Letters.N).map(ball => ({ ...ball, called: false })),
+            [Letters.G]: Balls.filter(ball => ball.letter === Letters.G).map(ball => ({ ...ball, called: false })),
+            [Letters.O]: Balls.filter(ball => ball.letter === Letters.O).map(ball => ({ ...ball, called: false }))
+        };
     }
 
     callBall(ball: Ball): void {
@@ -147,6 +151,12 @@ export class GameService {
     updateGame(game: Game): void {
         this.currentGame$.next(game);
         this.saveCurrentGame();
+    }
+
+    resetGame(game: Game): void {
+        game.balls = this.getBalls();
+        game.calls = [];
+        this.updateGame(game);
     }
 
     updateWinPattern(winPattern: WinPattern): void {

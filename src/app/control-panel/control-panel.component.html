@@ -69,10 +69,15 @@
                 <input matInput [(ngModel)]="gameOptions.boardTextColorCode" type="color" />
             </mat-form-field>
         </div>
-        <div class="row" start>
-            <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
-            <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
-            <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
+        <div class="row">
+            <div class="row" start>
+                <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
+                <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
+            </div>
+            <div class="row" start>
+                <button mat-flat-button color="primary" (click)="resetGame()">Reset Game</button>
+                <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
+            </div>
         </div>
     </div>
 </div>
