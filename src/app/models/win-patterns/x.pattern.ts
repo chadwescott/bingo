@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const XPattern = {
+export const XPattern: WinPattern = {
     name: 'X',
     coordinates: [
         [

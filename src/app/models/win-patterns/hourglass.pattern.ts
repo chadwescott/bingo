@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const HourglassPattern = {
+export const HourglassPattern: WinPattern = {
     name: 'Hourglass',
     coordinates: [
         [

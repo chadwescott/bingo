@@ -1,4 +1,6 @@
-export const HousePattern = {
+import { WinPattern } from "../win-pattern.model";
+
+export const HousePattern: WinPattern = {
     name: 'House',
     coordinates: [
         [

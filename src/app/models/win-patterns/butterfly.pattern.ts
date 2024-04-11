@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const ButterflyPattern = {
+export const ButterflyPattern: WinPattern = {
     name: 'Butterfly',
     coordinates: [
         [

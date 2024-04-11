@@ -20,6 +20,7 @@ export class ThemeService {
         this.theme$.subscribe(theme => {
             document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
             document.documentElement.style.setProperty('--text-color', theme.textColor);
+            document.documentElement.style.setProperty('--background-intensity', theme.intensity.toString());
         });
 
         this.loadData();

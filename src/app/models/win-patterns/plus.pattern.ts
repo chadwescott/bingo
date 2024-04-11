@@ -1,4 +1,6 @@
-export const PlusPattern = {
+import { WinPattern } from "../win-pattern.model";
+
+export const PlusPattern: WinPattern = {
     name: 'Plus',
     coordinates: [
         [

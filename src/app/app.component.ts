@@ -7,6 +7,6 @@ import { ThemeService } from './services/theme.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private readonly themeService: ThemeService) {
+  constructor(public readonly themeService: ThemeService) {
   }
 }

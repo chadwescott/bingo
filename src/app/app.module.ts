@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -43,6 +45,8 @@ import { WinPatternsComponent } from './win-patterns/win-patterns.component';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSliderModule,
+    MatSlideToggleModule,
     MatSelectModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, provideAnimations()],

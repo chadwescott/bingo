@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const BullseyePattern = {
+export const BullseyePattern: WinPattern = {
     name: 'Bullseye',
     coordinates: [
         [

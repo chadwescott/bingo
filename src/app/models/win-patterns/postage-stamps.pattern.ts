@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const PostageStamps = {
+export const PostageStamps: WinPattern = {
     name: 'Postage Stamps',
     coordinates: [
         [

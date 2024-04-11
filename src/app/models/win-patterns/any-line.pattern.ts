@@ -1,5 +1,7 @@
-export const StraightLinePattern = {
-    name: 'Straight Line',
+import { WinPattern } from "../win-pattern.model";
+
+export const AnyLinePattern: WinPattern = {
+    name: 'Any Line',
     coordinates: [
         [
             { x: 0, y: 0 },

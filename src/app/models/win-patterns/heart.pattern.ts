@@ -1,5 +1,6 @@
+import { WinPattern } from "../win-pattern.model";
 
-export const HeartPattern = {
+export const HeartPattern: WinPattern = {
     name: 'Heart',
     coordinates: [
         [
