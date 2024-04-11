@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { fonts } from "../models/font.model";
 import { Theme, defaultTheme } from "../models/theme.model";
 
 @Injectable({
@@ -18,6 +19,7 @@ export class ThemeService {
         });
 
         this.theme$.subscribe(theme => {
+            document.documentElement.style.setProperty('--font-family', theme.font.fontFamily);
             document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
             document.documentElement.style.setProperty('--text-color', theme.textColor);
             document.documentElement.style.setProperty('--card-color', theme.cardColor);
@@ -37,6 +39,7 @@ export class ThemeService {
     }
 
     updateTheme(theme: Theme): void {
+        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
         this.channel.postMessage(theme);
         this.theme$.next(theme);
         localStorage.setItem(this._themeKey, JSON.stringify(theme));

@@ -1,20 +1,33 @@
 <div class="container">
     <div class="column" stretch>
-        <div class="card row" start>
-            <mat-form-field>
-                <mat-label>Background Color</mat-label>
-                <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Card Color</mat-label>
-                <input matInput [(ngModel)]="theme.cardColor" type="color" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Text Color</mat-label>
-                <input matInput [(ngModel)]="theme.textColor" type="color" />
-            </mat-form-field>
-            <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
-            <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
+        <div class="card">
+            <div class="row" start>
+                <mat-form-field>
+                    <mat-label>Background Color</mat-label>
+                    <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Card Color</mat-label>
+                    <input matInput [(ngModel)]="theme.cardColor" type="color" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Text Color</mat-label>
+                    <input matInput [(ngModel)]="theme.textColor" type="color" />
+                </mat-form-field>
+                <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
+                <mat-form-field>
+                    <mat-label>Font</mat-label>
+                    <mat-select [(value)]="theme.font">
+                        @for (font of fonts; track font) {
+                        <mat-option [value]="font">{{ font.name }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="row" start>
+                <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
+                <button mat-flat-button color="primary" (click)="resetTheme()">Reset Theme</button>
+            </div>
         </div>
     </div>
 

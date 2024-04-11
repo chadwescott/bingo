@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { fonts } from '../models/font.model';
 import { defaultGameOptions } from '../models/game-options.model';
 import { Game } from '../models/game.model';
 import { Theme, defaultTheme } from '../models/theme.model';
@@ -21,6 +22,7 @@ export class ControlPanelComponent {
   gameOptions = defaultGameOptions;
   subscriptions$: Subscription[] = [];
   theme: Theme = defaultTheme;
+  fonts = fonts;
 
   constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
   }
@@ -75,5 +77,9 @@ export class ControlPanelComponent {
 
   updateTheme(): void {
     this.themeService.updateTheme(this.theme);
+  }
+
+  resetTheme(): void {
+    this.themeService.updateTheme(defaultTheme);
   }
 }

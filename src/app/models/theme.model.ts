@@ -1,13 +1,17 @@
+import { Font, fonts } from "./font.model";
+
 export interface Theme {
+    font: Font;
     backgroundColor: string;
-    textColor: string;
     cardColor: string;
+    textColor: string;
     textShadow: boolean;
 }
 
 export const defaultTheme: Theme = {
-    backgroundColor: '#501414',
+    font: fonts[0],
+    backgroundColor: '#2c1a0c',
+    cardColor: '#392304',
     textColor: '#ffffff',
-    cardColor: '#ffffff',
     textShadow: true
 }
