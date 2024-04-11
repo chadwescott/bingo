@@ -37,14 +37,8 @@ $light-theme: mat.define-light-theme(
 }
 
 :root {
-    --primary-color: #501414;
-    --text-color: #fff;
-    --success-color: #28a745;
-    --info-color: #17a2b8;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
+    --primary-color: #2c1a0c;
+    --text-color: #ffffff;
     --white-color: #fff;
     --black-color: #000;
     --not-called-color: #333;
@@ -67,7 +61,7 @@ $light-theme: mat.define-light-theme(
     --o-ball-text-color: black;
 
     --border-color: rgb(0 0 0 / 0.2);
-    --card-color: rgb(0 0 0 / 0.5);
+    --card-color: #392304;
 
     --card-box-shadow: 0 0 0 0.05vw rgb(0 0 0 / 0.1), 0 0 0 0.1vw rgb(0 0 0 / 0.1), 0 0 0 0.15vw rgb(0 0 0 / 0.1);
     --text-shadow: none;
