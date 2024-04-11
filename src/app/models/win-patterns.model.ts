@@ -3,8 +3,8 @@ import { AnyLinePattern } from "./win-patterns/any-line.pattern";
 import { BullseyePattern } from "./win-patterns/bullseye.pattern";
 import { ButterflyPattern } from "./win-patterns/butterfly.pattern";
 import { CandlestickPattern } from "./win-patterns/candlestick.pattern";
-import { CrossFlagsPattern } from "./win-patterns/cross-flags.pattern";
 import { CrossPattern } from "./win-patterns/cross.pattern";
+import { CrossingFlagsPattern } from "./win-patterns/crossing-flags.pattern";
 import { DiamondPattern } from "./win-patterns/diamond.pattern";
 import { FourCornerPostageStampsPattern } from "./win-patterns/four-corner-postage-stamps.pattern";
 import { FullBoardPattern } from "./win-patterns/full-board.pattern";
@@ -27,12 +27,12 @@ export const winPatterns: WinPattern[] =
         TwoLinesPattern,
         FourCornerPostageStampsPattern,
         AnyLinePattern,
-        CandlestickPattern,
-        CrossPattern,
-        CrossFlagsPattern,
-        DiamondPattern,
         BullseyePattern,
         ButterflyPattern,
+        CandlestickPattern,
+        CrossPattern,
+        CrossingFlagsPattern,
+        DiamondPattern,
         FullBoardPattern,
         HeartPattern,
         HourglassPattern,

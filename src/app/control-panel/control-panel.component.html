@@ -6,16 +6,14 @@
                 <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
             </mat-form-field>
             <mat-form-field>
+                <mat-label>Card Color</mat-label>
+                <input matInput [(ngModel)]="theme.cardColor" type="color" />
+            </mat-form-field>
+            <mat-form-field>
                 <mat-label>Text Color</mat-label>
                 <input matInput [(ngModel)]="theme.textColor" type="color" />
             </mat-form-field>
-            <mat-slide-toggle [(ngModel)]="theme.darkMode">Dark Mode</mat-slide-toggle>
-            <div class="column" mat-internal-form-field>
-                <label>Intensity: {{ theme.intensity }}</label>
-                <mat-slider class="example-margin" max="1" min="0" step=".05">
-                    <input matSliderThumb [(ngModel)]="theme.intensity">
-                </mat-slider>
-            </div>
+            <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
             <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
         </div>
     </div>

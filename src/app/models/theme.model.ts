@@ -1,13 +1,13 @@
 export interface Theme {
     backgroundColor: string;
     textColor: string;
-    darkMode: boolean;
-    intensity: number;
+    cardColor: string;
+    textShadow: boolean;
 }
 
 export const defaultTheme: Theme = {
     backgroundColor: '#501414',
     textColor: '#ffffff',
-    darkMode: true,
-    intensity: 0.5
+    cardColor: '#ffffff',
+    textShadow: true
 }

@@ -67,13 +67,10 @@ $light-theme: mat.define-light-theme(
     --o-ball-text-color: black;
 
     --border-color: rgb(0 0 0 / 0.2);
-
-    --background-intensity: 0.5;
-    --card-background-dark: rgb(0 0 0 / var(--background-intensity));
-    --card-background-light: rgb(255 255 255 / var(--background-intensity));
-    --card-background: var(--card-background-light);
+    --card-color: rgb(0 0 0 / 0.5);
 
     --card-box-shadow: 0 0 0 0.05vw rgb(0 0 0 / 0.1), 0 0 0 0.1vw rgb(0 0 0 / 0.1), 0 0 0 0.15vw rgb(0 0 0 / 0.1);
+    --text-shadow: none;
 }
 
 *,
@@ -92,8 +89,9 @@ body {
     user-select: none;
 }
 
-[dark-mode='true'] {
-    --card-background: var(--card-background-dark);
+[text-shadow='true'] {
+    --text-shadow: var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-offset)
+        var(--text-shadow-color);
 }
 
 [mat-internal-form-field] label {
@@ -103,11 +101,11 @@ body {
 
 .card {
     font-size: 1.5vw;
-    background: var(--card-background);
+    background: var(--card-color);
     padding: var(--gap-size);
     border: solid var(--border-width) var(--border-color);
     height: 100%;
-    text-shadow: var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-color);
+    text-shadow: var(--text-shadow);
     box-shadow: var(--card-box-shadow);
 
     &[no-padding] {

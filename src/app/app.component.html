@@ -1,4 +1,3 @@
-<div class="container" [attr.dark-mode]="(themeService.theme$ | async)?.darkMode"
-  [attr.intensity]="(themeService.theme$ | async)?.intensity">
+<div class="container" [attr.text-shadow]="(themeService.theme$ | async)?.textShadow">
   <router-outlet></router-outlet>
 </div>

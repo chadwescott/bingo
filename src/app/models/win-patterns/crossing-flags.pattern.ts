@@ -1,7 +1,7 @@
 import { WinPattern } from "../win-pattern.model";
 
-export const CrossFlagsPattern: WinPattern = {
-    name: 'Cross Flags',
+export const CrossingFlagsPattern: WinPattern = {
+    name: 'Crossing Flags',
     coordinates: [
         [
             { x: 0, y: 0 },
