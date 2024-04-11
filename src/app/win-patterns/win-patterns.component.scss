@@ -2,8 +2,7 @@
     display: flex;
     flex-direction: column;
     --box-size: calc(100vw / 32);
-    --border-size: 0.125rem;
-    border: solid var(--border-size) var(--board-color);
+    border: solid var(--border-width) var(--board-color);
 
     > div {
         display: flex;
@@ -15,13 +14,14 @@
             justify-content: center;
             height: var(--box-size);
             width: var(--box-size);
-            border: solid var(--border-size) var(--board-color);
+            border: solid var(--border-width) var(--board-color);
         }
 
         .letter {
             background-color: var(--board-color);
             text-transform: uppercase;
             font-size: 2vw;
+            color: var(--board-text-color);
         }
 
         .number {
@@ -30,6 +30,7 @@
             text-transform: uppercase;
             position: relative;
             font-size: 0.85vw;
+            text-shadow: none;
 
             &.selected {
                 color: var(--white-color);

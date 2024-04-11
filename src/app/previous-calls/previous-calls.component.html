@@ -1,4 +1,4 @@
-<div class="card column">
+<div class="card column" no-wrap>
     <div class="ball-row">
         <ng-container *ngFor="let call of gameService.previousCalls$ | async; let i = index">
             <bng-ball-display [ball]="call"></bng-ball-display>

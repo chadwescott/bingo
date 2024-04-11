@@ -49,6 +49,13 @@ $light-theme: mat.define-light-theme(
     --black-color: #000;
     --not-called-color: #333;
     --called-color: #fff;
+    --border-color: rgb(255 255 255 / 0.4);
+    --border-color: rgb(0 0 0 / 0.2);
+    --border-width: 0.125vw;
+    --gap-size: 0.75vw;
+    --text-shadow-color: rgb(0 0 0 / 0.8);
+    --text-shadow-offset: 0.125vw;
+
     --b-ball-color: #0b92ff;
     --i-ball-color: rgb(227, 0, 0);
     --n-ball-color: white;
@@ -59,9 +66,6 @@ $light-theme: mat.define-light-theme(
     --n-ball-text-color: black;
     --g-ball-text-color: white;
     --o-ball-text-color: black;
-    --border-color: rgb(255 255 255 / 0.4);
-    --border-width: 0.1vw;
-    --gap-size: 0.75vw;
 }
 
 *,
@@ -77,6 +81,7 @@ body {
     background: var(--primary-color);
     color: var(--text-color);
     font-family: Arial, Helvetica, sans-serif;
+    user-select: none;
 }
 
 .card {
@@ -85,6 +90,15 @@ body {
     padding: var(--gap-size);
     border: solid var(--border-width) var(--border-color);
     height: 100%;
+    text-shadow: var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-color);
+
+    &[no-padding] {
+        padding: 0;
+    }
+}
+
+mat-form-field {
+    text-shadow: none;
 }
 
 .column,
@@ -94,6 +108,10 @@ body {
     justify-content: space-between;
     gap: var(--gap-size);
     flex-wrap: wrap;
+
+    &[no-wrap] {
+        flex-wrap: nowrap;
+    }
 }
 
 .column {
@@ -106,6 +124,10 @@ body {
     &[start] {
         align-items: start;
     }
+
+    &[expand] {
+        height: 100%;
+    }
 }
 
 .row {
@@ -115,8 +137,8 @@ body {
         justify-content: stretch;
     }
 
-    &[space-between] {
-        justify-content: space-between;
+    &[center] {
+        justify-content: center;
     }
 
     &[start] {
@@ -125,5 +147,9 @@ body {
 
     &[top] {
         align-items: start;
+    }
+
+    &[expand] {
+        width: 100%;
     }
 }

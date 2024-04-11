@@ -1,4 +1,4 @@
-<div *ngIf="balls" class="balls">
+<div *ngIf="balls" class="balls card" no-padding>
     <div *ngFor="let letter of letters" class="ball-row">
         <div class="ball-letter" [attr.ball-letter]="letter">{{ letter }}</div>
         <div *ngFor="let ball of balls[letter]" class="ball-number"

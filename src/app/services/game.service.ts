@@ -28,6 +28,7 @@ export class GameService {
             this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
 
             document.documentElement.style.setProperty('--board-color', currentGame.options.boardColorCode);
+            document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColorCode);
             this.updatePreviousCalls();
         });
 
@@ -77,7 +78,7 @@ export class GameService {
             return;
         }
 
-        const startIndex = Math.max(calls.length - 7, 0);
+        const startIndex = Math.max(calls.length - 6, 0);
         const endIndex = calls.length - 1;
         this.previousCalls$.next(currentGame.calls.slice(startIndex, endIndex).reverse());
     }
@@ -90,6 +91,7 @@ export class GameService {
         this.channel.postMessage(currentGame);
 
         document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColorCode);
+        document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColorCode);
 
         const games = this.games$.value;
         games[games.findIndex(g => g.startTime === currentGame.startTime)] = currentGame;
@@ -121,10 +123,6 @@ export class GameService {
 
         this.games$.value.push(game);
         this.saveGames();
-    }
-
-    selectGame(game: Game): void {
-        this.currentGame$.next(game);
     }
 
     callBall(ball: Ball): void {

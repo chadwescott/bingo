@@ -37,12 +37,16 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
+                <mat-label>Board Color Name</mat-label>
+                <input matInput [(ngModel)]="gameOptions.boardColorName" />
+            </mat-form-field>
+            <mat-form-field>
                 <mat-label>Board Color</mat-label>
                 <input matInput [(ngModel)]="gameOptions.boardColorCode" type="color" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Board Color</mat-label>
-                <input matInput [(ngModel)]="gameOptions.boardColorName" />
+                <mat-label>Board Text Color</mat-label>
+                <input matInput [(ngModel)]="gameOptions.boardTextColorCode" type="color" />
             </mat-form-field>
         </div>
         <div class="row" start>

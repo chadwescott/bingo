@@ -1,9 +1,7 @@
 .balls {
     position: relative;
-    // background: var(--primary-color);
     --box-size: calc(100vw / 18);
     width: calc(100vw - var(--box-size) * 2);
-    border: solid var(--border-width) var(--border-color);
 }
 
 .ball-row {

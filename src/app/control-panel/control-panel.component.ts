@@ -33,6 +33,7 @@ export class ControlPanelComponent {
       this.gameOptions = {
         boardColorCode: game.options.boardColorCode,
         boardColorName: game.options.boardColorName,
+        boardTextColorCode: game.options.boardTextColorCode,
         winPattern: game.options.winPattern
       };
     }));
@@ -51,8 +52,9 @@ export class ControlPanelComponent {
   updateGame(): void {
     if (!this.currentGame) { return; }
     this.currentGame.gameNumber = this.gameNumber;
-    this.currentGame.options.boardColorCode = this.gameOptions?.boardColorCode ?? this.currentGame.options.boardColorCode;
     this.currentGame.options.boardColorName = this.gameOptions?.boardColorName ?? this.currentGame.options.boardColorName;
+    this.currentGame.options.boardColorCode = this.gameOptions?.boardColorCode ?? this.currentGame.options.boardColorCode;
+    this.currentGame.options.boardTextColorCode = this.gameOptions?.boardTextColorCode ?? this.currentGame.options.boardTextColorCode;
     this.currentGame.options.winPattern = this.gameOptions?.winPattern ?? this.currentGame.options.winPattern;
     this.gameService.updateGame(this.currentGame);
   }
