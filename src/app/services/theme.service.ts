@@ -23,6 +23,8 @@ export class ThemeService {
             document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
             document.documentElement.style.setProperty('--text-color', theme.textColor);
             document.documentElement.style.setProperty('--card-color', theme.cardColor);
+            document.documentElement.style.setProperty('--text-transform', theme.uppercase ? 'uppercase' : 'none');
+            document.documentElement.style.setProperty('--font-weight', theme.bold ? 'bold' : 'none');
         });
 
         this.loadData();

@@ -5,7 +5,9 @@ export interface Theme {
     backgroundColor: string;
     cardColor: string;
     textColor: string;
+    bold: boolean;
     textShadow: boolean;
+    uppercase: boolean;
 }
 
 export const defaultTheme: Theme = {
@@ -13,5 +15,7 @@ export const defaultTheme: Theme = {
     backgroundColor: '#2c1a0c',
     cardColor: '#392304',
     textColor: '#ffffff',
-    textShadow: true
+    bold: false,
+    textShadow: true,
+    uppercase: true
 }

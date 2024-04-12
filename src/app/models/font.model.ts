@@ -13,6 +13,10 @@ export const fonts: Font[] = [
         fontFamily: "'Fugaz One', sans-serif"
     },
     {
+        name: 'Orbitron',
+        fontFamily: 'Orbitron, sans-serif'
+    },
+    {
         name: 'Racing',
         fontFamily: "'Racing Sans One', sans-serif"
     }

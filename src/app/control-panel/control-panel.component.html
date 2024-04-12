@@ -1,7 +1,7 @@
 <div class="container">
     <div class="column" stretch>
         <div class="card">
-            <div class="row" start>
+            <div class="row" start top>
                 <mat-form-field>
                     <mat-label>Background Color</mat-label>
                     <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
@@ -14,7 +14,6 @@
                     <mat-label>Text Color</mat-label>
                     <input matInput [(ngModel)]="theme.textColor" type="color" />
                 </mat-form-field>
-                <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
                 <mat-form-field>
                     <mat-label>Font</mat-label>
                     <mat-select [(value)]="theme.font">
@@ -23,6 +22,13 @@
                         }
                     </mat-select>
                 </mat-form-field>
+                <div class="column" start>
+                    <mat-slide-toggle [(ngModel)]="theme.uppercase">Uppercase</mat-slide-toggle>
+                    <mat-slide-toggle [(ngModel)]="theme.bold">Bold</mat-slide-toggle>
+                </div>
+                <div class="column" start top>
+                    <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
+                </div>
             </div>
             <div class="row" start>
                 <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>

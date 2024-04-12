@@ -6,7 +6,8 @@
     gap: var(--gap-size);
 
     .footer {
-        text-transform: uppercase;
+        text-transform: var(--text-transform, none);
+        font-weight: var(--font-weight, normal);
         display: grid;
         gap: var(--gap-size);
         align-items: start;
