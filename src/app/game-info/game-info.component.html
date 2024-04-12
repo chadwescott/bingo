@@ -1,9 +1,4 @@
-<div class="card column" start>
-    <div class="row" center expand>
-        <div class="game-name">Game: {{ game?.gameNumber }}</div>
-    </div>
-    <div class="row" expand>
-        <div class="board-color">Board Color: <span class="value">{{ game?.options?.boardColorName }}</span></div>
-        <div class="win-pattern">Win Pattern: <span class="value">{{ game?.options?.winPattern?.name }}</span></div>
-    </div>
+<div class="card column">
+    <div class="game-name">Game: {{ game?.gameNumber }}</div>
+    <div>{{ game?.message }}</div>
 </div>

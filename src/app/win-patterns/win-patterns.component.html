@@ -1,5 +1,4 @@
 <div class="card column">
-    <div>Win Pattern<ng-container *ngIf="(pattern?.coordinates?.length ?? 0) > 1">s</ng-container></div>
     <div class="board">
         <div class="letter-row">
             <div class="letter">B</div>
@@ -12,12 +11,13 @@
         <div class="number-row">
             @for (column of columns; track column) {
             <div class="number" [ngClass]="{ selected:  coordinateSelected(row, column)}">
-                <ng-container *ngIf="row === 2 && column === 2">
+                <span class="free-space" *ngIf="row === 2 && column === 2">
                     Free Space
-                </ng-container>
+                </span>
             </div>
             }
         </div>
         }
     </div>
+    <h2>{{ pattern?.name}}</h2>
 </div>

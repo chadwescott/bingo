@@ -8,4 +8,5 @@ export interface Game {
     startTime: Date;
     balls: { [key in Letters]: Ball[] };
     calls: Ball[];
+    message: string;
 }

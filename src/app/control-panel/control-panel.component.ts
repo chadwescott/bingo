@@ -18,11 +18,13 @@ export class ControlPanelComponent {
   games$ = this.gameService.games$;
   currentGame: Game | null = null;
   winPatterns = winPatterns;
-  gameNumber: number = 1;
+  gameNumber = 1;
+  message = '';
   gameOptions = defaultGameOptions;
   subscriptions$: Subscription[] = [];
   theme: Theme = defaultTheme;
   fonts = fonts;
+  disableMarkerColor = false;
 
   constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
   }
@@ -32,10 +34,11 @@ export class ControlPanelComponent {
       this.currentGame = game;
       if (!game) { return; }
       this.gameNumber = game.gameNumber;
+      this.message = game.message;
       this.gameOptions = {
-        boardColorCode: game.options.boardColorCode,
-        boardColorName: game.options.boardColorName,
-        boardTextColorCode: game.options.boardTextColorCode,
+        boardColor: game.options.boardColor,
+        boardTextColor: game.options.boardTextColor,
+        markerColor: game.options.markerColor,
         winPattern: game.options.winPattern
       };
     }));
@@ -54,9 +57,12 @@ export class ControlPanelComponent {
   updateGame(): void {
     if (!this.currentGame) { return; }
     this.currentGame.gameNumber = this.gameNumber;
-    this.currentGame.options.boardColorName = this.gameOptions?.boardColorName ?? this.currentGame.options.boardColorName;
-    this.currentGame.options.boardColorCode = this.gameOptions?.boardColorCode ?? this.currentGame.options.boardColorCode;
-    this.currentGame.options.boardTextColorCode = this.gameOptions?.boardTextColorCode ?? this.currentGame.options.boardTextColorCode;
+    this.currentGame.message = this.message;
+    this.currentGame.options.boardColor = this.gameOptions?.boardColor ?? this.currentGame.options.boardColor;
+    this.currentGame.options.markerColor = this.disableMarkerColor
+      ? this.currentGame.options.boardColor
+      : this.gameOptions?.markerColor ?? this.currentGame.options.markerColor;
+    this.currentGame.options.boardTextColor = this.gameOptions?.boardTextColor ?? this.currentGame.options.boardTextColor;
     this.currentGame.options.winPattern = this.gameOptions?.winPattern ?? this.currentGame.options.winPattern;
     this.gameService.updateGame(this.currentGame);
   }

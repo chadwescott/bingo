@@ -27,8 +27,9 @@ export class GameService {
             this.currentGame$.next(currentGame);
             this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
 
-            document.documentElement.style.setProperty('--board-color', currentGame.options.boardColorCode);
-            document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColorCode);
+            document.documentElement.style.setProperty('--board-color', currentGame.options.boardColor);
+            document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
+            document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
             this.updatePreviousCalls();
         });
 
@@ -90,8 +91,8 @@ export class GameService {
         localStorage.setItem(this._currentGameKey, JSON.stringify(currentGame));
         this.channel.postMessage(currentGame);
 
-        document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColorCode);
-        document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColorCode);
+        document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColor);
+        document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
 
         const games = this.games$.value;
         games[games.findIndex(g => g.startTime === currentGame.startTime)] = currentGame;
@@ -107,6 +108,7 @@ export class GameService {
         const game: Game = {
             gameNumber: gameNumber,
             options: options,
+            message: '',
             startTime: new Date(),
             balls: this.getBalls(),
             calls: []

@@ -1,3 +1,17 @@
+h2,
+h3 {
+    margin: 0;
+    font-weight: var(--font-weight);
+}
+
+h2 {
+    font-size: 2.25vw;
+}
+
+h3 {
+    font-size: 1.5vw;
+}
+
 .board {
     display: flex;
     flex-direction: column;
@@ -28,17 +42,21 @@
             background-color: var(--white-color);
             color: var(--board-color);
             text-transform: uppercase;
+            font-family: Arial, Helvetica, sans-serif;
             position: relative;
-            font-size: 0.85vw;
+            font-size: 0.8vw;
+            line-height: 1.5;
             text-shadow: none;
 
             &.selected {
-                color: var(--white-color);
+                color: transparent;
+                text-overflow: hidden;
 
                 &::before,
                 &::after {
                     --size: 80%;
                     content: '';
+                    text-overflow: hidden;
                     position: absolute;
                     border-radius: 50%;
                     height: var(--size);
@@ -46,7 +64,7 @@
                 }
 
                 &::before {
-                    background: var(--board-color);
+                    background: var(--marker-color, var(--board-color));
                 }
                 &::after {
                     background: radial-gradient(

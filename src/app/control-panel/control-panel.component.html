@@ -40,7 +40,7 @@
     <bng-called-numbers [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
 
     <div class="card">
-        <div class="row" start>
+        <div class="row" start top>
             <mat-form-field>
                 <mat-label>Load Game</mat-label>
                 <mat-select [(value)]="currentGame" (selectionChange)="loadGame($event.value)">
@@ -63,24 +63,29 @@
                 </mat-select>
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Board Color Name</mat-label>
-                <input matInput [(ngModel)]="gameOptions.boardColorName" />
+                <mat-label>Board Color</mat-label>
+                <input matInput [(ngModel)]="gameOptions.boardColor" type="color" />
             </mat-form-field>
             <mat-form-field>
-                <mat-label>Board Color</mat-label>
-                <input matInput [(ngModel)]="gameOptions.boardColorCode" type="color" />
+                <mat-label>Marker Color</mat-label>
+                <input matInput [disabled]="disableMarkerColor" [(ngModel)]="gameOptions.markerColor" type="color" />
             </mat-form-field>
+            <mat-slide-toggle [(ngModel)]="disableMarkerColor">Use Board Color</mat-slide-toggle>
             <mat-form-field>
                 <mat-label>Board Text Color</mat-label>
-                <input matInput [(ngModel)]="gameOptions.boardTextColorCode" type="color" />
+                <input matInput [(ngModel)]="gameOptions.boardTextColor" type="color" />
             </mat-form-field>
         </div>
-        <div class="row">
-            <div class="row" start>
+        <div class="footer">
+            <div class="column" start>
                 <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
                 <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
             </div>
-            <div class="row" start>
+            <mat-form-field class="full-width">
+                <mat-label>Message</mat-label>
+                <input matInput [(ngModel)]="message" />
+            </mat-form-field>
+            <div class="column" end>
                 <button mat-flat-button color="primary" (click)="resetGame()">Reset Game</button>
                 <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
             </div>
