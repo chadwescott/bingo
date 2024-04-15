@@ -11,9 +11,9 @@ export interface Theme {
 }
 
 export const defaultTheme: Theme = {
-    font: fonts[0],
-    backgroundColor: '#2c1a0c',
-    cardColor: '#392304',
+    font: fonts[3],
+    backgroundColor: '#361b07',
+    cardColor: '#3e372e',
     textColor: '#ffffff',
     bold: false,
     textShadow: true,

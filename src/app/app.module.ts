@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,7 +48,8 @@ import { WinPatternsComponent } from './win-patterns/win-patterns.component';
     MatInputModule,
     MatFormFieldModule,
     MatSlideToggleModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, provideAnimations()],
   bootstrap: [AppComponent]
