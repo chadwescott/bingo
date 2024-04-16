@@ -65,6 +65,8 @@ $light-theme: mat.define-light-theme(
     --card-color: #392304;
 
     --card-box-shadow: 0 0 0 0.05vw rgb(0 0 0 / 0.1), 0 0 0 0.1vw rgb(0 0 0 / 0.1), 0 0 0 0.15vw rgb(0 0 0 / 0.1);
+    --text-shadow-on: var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-offset)
+        var(--text-shadow-color);
     --text-shadow: none;
     --font-family: Arial, Helvetica sans-serif;
     --text-transform: none;
@@ -87,9 +89,8 @@ body {
     user-select: none;
 }
 
-[text-shadow='true'] {
-    --text-shadow: var(--text-shadow-offset) var(--text-shadow-offset) var(--text-shadow-offset)
-        var(--text-shadow-color);
+[text-shadow] {
+    --text-shadow: var(--text-shadow-on);
 }
 
 [bold] {
@@ -121,6 +122,10 @@ mat-tab-body {
 
 mat-tab-body .mat-mdc-tab-body-content {
     overflow: hidden;
+}
+
+input[matinput][type='color'] {
+    cursor: pointer;
 }
 
 .card {
@@ -211,5 +216,5 @@ mat-form-field {
 }
 
 mat-form-field[wide] {
-    width: 20rem;
+    width: min(30rem, 80vw);
 }

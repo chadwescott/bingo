@@ -22,7 +22,15 @@ export class ControlPanelComponent {
   message = '';
   gameOptions = defaultGameOptions;
   subscriptions$: Subscription[] = [];
-  theme: Theme = defaultTheme;
+  theme: Theme = {
+    font: defaultTheme.font,
+    backgroundColor: defaultTheme.backgroundColor,
+    cardColor: defaultTheme.cardColor,
+    textColor: defaultTheme.textColor,
+    bold: defaultTheme.bold,
+    textShadow: defaultTheme.textShadow,
+    uppercase: defaultTheme.uppercase
+  }
   fonts = fonts;
   disableMarkerColor = false;
 
@@ -43,7 +51,9 @@ export class ControlPanelComponent {
       };
     }));
 
-    this.subscriptions$.push(this.themeService.theme$.subscribe(theme => this.theme = theme));
+    this.subscriptions$.push(this.themeService.theme$.subscribe(theme => {
+      this.theme = theme;
+    }));
   }
 
   ngOnDestroy() {

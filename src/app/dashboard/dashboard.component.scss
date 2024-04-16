@@ -4,7 +4,6 @@
     flex-direction: column;
 
     gap: var(--gap-size);
-    width: calc(100vw - var(--box-size) * 2);
 
     .footer {
         text-transform: var(--text-transform, none);

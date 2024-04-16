@@ -42,8 +42,6 @@
                         <input matInput [(ngModel)]="gameOptions.boardTextColor" type="color" />
                         <span>{{ gameOptions.boardTextColor }}</span>
                     </mat-form-field>
-                </div>
-                <div class="row">
                     <mat-form-field wide>
                         <mat-label>Message</mat-label>
                         <textarea matInput [(ngModel)]="message" cdkTextareaAutosize cdkAutosizeMinRows="1"
@@ -85,12 +83,12 @@
                             <mat-option [value]="font">{{ font.name }}</mat-option>
                             }
                         </mat-select>
-                        <div class="column" start top>
-                            <mat-slide-toggle [(ngModel)]="theme.uppercase">Uppercase</mat-slide-toggle>
-                            <mat-slide-toggle [(ngModel)]="theme.bold">Bold</mat-slide-toggle>
-                            <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
-                        </div>
                     </mat-form-field>
+                    <div class="column" start top>
+                        <mat-slide-toggle [(ngModel)]="theme.uppercase">Uppercase</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="theme.bold">Bold</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
+                    </div>
                 </div>
                 <div class="row" start>
                     <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
