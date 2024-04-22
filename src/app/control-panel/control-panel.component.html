@@ -27,15 +27,18 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Board Color</mat-label>
-                        <input matInput [(ngModel)]="gameOptions.boardColor" type="color" />
+                        <input matInput [(ngModel)]="gameOptions.boardColor" type="color"
+                            (ngModelChange)="updateMarkerColor()" />
                         <span>{{ gameOptions.boardColor }}</span>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Marker Color</mat-label>
-                        <input matInput [disabled]="disableMarkerColor" [(ngModel)]="gameOptions.markerColor"
-                            type="color" />
+                        <input matInput [disabled]="gameOptions.disableMarkerColor"
+                            [(ngModel)]="gameOptions.markerColor" type="color" />
                         <span>{{ gameOptions.markerColor }}</span>
-                        <mat-slide-toggle [(ngModel)]="disableMarkerColor">Use Board Color</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="gameOptions.disableMarkerColor"
+                            (ngModelChange)="updateMarkerColor()">Use Board
+                            Color</mat-slide-toggle>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Board Text Color</mat-label>

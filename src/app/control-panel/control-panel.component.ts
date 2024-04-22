@@ -32,7 +32,6 @@ export class ControlPanelComponent {
     uppercase: defaultTheme.uppercase
   }
   fonts = fonts;
-  disableMarkerColor = false;
 
   constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
   }
@@ -46,7 +45,8 @@ export class ControlPanelComponent {
       this.gameOptions = {
         boardColor: game.options.boardColor,
         boardTextColor: game.options.boardTextColor,
-        markerColor: game.options.markerColor,
+        markerColor: game.options.disableMarkerColor ? game.options.boardColor : game.options.markerColor,
+        disableMarkerColor: game.options.disableMarkerColor,
         winPattern: game.options.winPattern
       };
     }));
@@ -61,7 +61,7 @@ export class ControlPanelComponent {
   }
 
   newGame(): void {
-    this.gameService.createGame(this.gameNumber, this.gameOptions);
+    this.gameService.createGame(this.gameNumber, this.gameOptions, this.message);
   }
 
   updateGame(): void {
@@ -69,12 +69,19 @@ export class ControlPanelComponent {
     this.currentGame.gameNumber = this.gameNumber;
     this.currentGame.message = this.message;
     this.currentGame.options.boardColor = this.gameOptions?.boardColor ?? this.currentGame.options.boardColor;
-    this.currentGame.options.markerColor = this.disableMarkerColor
+    this.currentGame.options.disableMarkerColor = this.gameOptions.disableMarkerColor;
+    this.currentGame.options.markerColor = this.gameOptions.disableMarkerColor
       ? this.currentGame.options.boardColor
-      : this.gameOptions?.markerColor ?? this.currentGame.options.markerColor;
+      : this.gameOptions?.markerColor ?? this.currentGame.options.boardColor;
     this.currentGame.options.boardTextColor = this.gameOptions?.boardTextColor ?? this.currentGame.options.boardTextColor;
     this.currentGame.options.winPattern = this.gameOptions?.winPattern ?? this.currentGame.options.winPattern;
     this.gameService.updateGame(this.currentGame);
+  }
+
+  updateMarkerColor(): void {
+    if (this.gameOptions.disableMarkerColor) {
+      this.gameOptions.markerColor = this.gameOptions.boardColor;
+    }
   }
 
   updateWinPattern(winPattern: WinPattern): void {

@@ -104,11 +104,12 @@ export class GameService {
         localStorage.setItem(this._gamesKey, JSON.stringify(this.games$.value));
     }
 
-    createGame(gameNumber: number, options: GameOptions): void {
+    createGame(gameNumber: number, options: GameOptions, message: string = ''): void {
+        options.markerColor = options.disableMarkerColor ? options.boardColor : options.markerColor;
         const game: Game = {
             gameNumber: gameNumber,
             options: options,
-            message: '',
+            message: message,
             startTime: new Date(),
             balls: this.getBalls(),
             calls: []
