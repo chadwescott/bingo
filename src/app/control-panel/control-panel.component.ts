@@ -22,15 +22,7 @@ export class ControlPanelComponent {
   message = '';
   gameOptions = defaultGameOptions;
   subscriptions$: Subscription[] = [];
-  theme: Theme = {
-    font: defaultTheme.font,
-    backgroundColor: defaultTheme.backgroundColor,
-    cardColor: defaultTheme.cardColor,
-    textColor: defaultTheme.textColor,
-    bold: defaultTheme.bold,
-    textShadow: defaultTheme.textShadow,
-    uppercase: defaultTheme.uppercase
-  }
+  theme: Theme = { ...defaultTheme }
   fonts = fonts;
 
   constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
@@ -42,13 +34,8 @@ export class ControlPanelComponent {
       if (!game) { return; }
       this.gameNumber = game.gameNumber;
       this.message = game.message;
-      this.gameOptions = {
-        boardColor: game.options.boardColor,
-        boardTextColor: game.options.boardTextColor,
-        markerColor: game.options.disableMarkerColor ? game.options.boardColor : game.options.markerColor,
-        disableMarkerColor: game.options.disableMarkerColor,
-        winPattern: game.options.winPattern
-      };
+      this.gameOptions = { ...game.options };
+      this.gameOptions.markerColor = game.options.disableMarkerColor ? game.options.boardColor : game.options.markerColor;
     }));
 
     this.subscriptions$.push(this.themeService.theme$.subscribe(theme => {
@@ -108,6 +95,6 @@ export class ControlPanelComponent {
   }
 
   resetTheme(): void {
-    this.themeService.updateTheme(defaultTheme);
+    this.themeService.updateTheme({ ...defaultTheme });
   }
 }
