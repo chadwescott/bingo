@@ -165,6 +165,11 @@ mat-form-field {
     &[no-gap] {
         gap: 0;
     }
+
+    &[expand] {
+        height: 100%;
+        width: 100%;
+    }
 }
 
 .column {
@@ -180,10 +185,6 @@ mat-form-field {
 
     &[end] {
         align-items: end;
-    }
-
-    &[expand] {
-        height: 100%;
     }
 }
 
@@ -208,10 +209,6 @@ mat-form-field {
 
     &[top] {
         align-items: start;
-    }
-
-    &[expand] {
-        width: 100%;
     }
 }
 

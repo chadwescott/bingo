@@ -2,7 +2,12 @@ label {
     font-size: 14px;
 }
 
+mat-form-field.small {
+    width: 10rem;
+}
+
 .footer {
+    width: 100%;
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: var(--gap-size);

@@ -24,6 +24,7 @@ export class ControlPanelComponent {
   subscriptions$: Subscription[] = [];
   theme: Theme = { ...defaultTheme }
   fonts = fonts;
+  controlPanelId = '#controlPanel';
 
   constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
   }
@@ -69,6 +70,17 @@ export class ControlPanelComponent {
     if (this.gameOptions.disableMarkerColor) {
       this.gameOptions.markerColor = this.gameOptions.boardColor;
     }
+
+    document.getElementById(this.controlPanelId)?.style.setProperty('--marker-color', this.gameOptions.markerColor);
+  }
+
+  updateBoardColor(): void {
+    document.getElementById(this.controlPanelId)?.style.setProperty('--board-color', this.gameOptions.boardColor);
+    this.updateMarkerColor();
+  }
+
+  updateBoardTextColor(): void {
+    document.getElementById(this.controlPanelId)?.style.setProperty('--board-text-color', this.gameOptions.boardTextColor);
   }
 
   updateWinPattern(winPattern: WinPattern): void {

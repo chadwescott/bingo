@@ -7,7 +7,10 @@
         <bng-current-call class="current-call" [call]="gameService.lastCall$ | async"></bng-current-call>
         <bng-game-info class="game-info" [game]="gameService.currentGame$ | async"></bng-game-info>
         <bng-previous-calls class="previous-calls"></bng-previous-calls>
-        <bng-win-patterns class="win-patterns"
-            [pattern]="(gameService.currentGame$ | async)?.options?.winPattern ?? null"></bng-win-patterns>
+        <div class="card column win-patterns">
+            <bng-win-patterns
+                [pattern]="(gameService.currentGame$ | async)?.options?.winPattern ?? null"></bng-win-patterns>
+            <div>{{ (gameService.currentGame$ | async)?.options?.winPattern?.name}}</div>
+        </div>
     </div>
 </div>
