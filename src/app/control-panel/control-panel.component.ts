@@ -71,16 +71,24 @@ export class ControlPanelComponent {
       this.gameOptions.markerColor = this.gameOptions.boardColor;
     }
 
-    document.getElementById(this.controlPanelId)?.style.setProperty('--marker-color', this.gameOptions.markerColor);
+    document.documentElement.style.setProperty('--marker-color', this.gameOptions.markerColor);
   }
 
   updateBoardColor(): void {
-    document.getElementById(this.controlPanelId)?.style.setProperty('--board-color', this.gameOptions.boardColor);
+    document.documentElement.style.setProperty('--board-color', this.gameOptions.boardColor);
     this.updateMarkerColor();
   }
 
   updateBoardTextColor(): void {
-    document.getElementById(this.controlPanelId)?.style.setProperty('--board-text-color', this.gameOptions.boardTextColor);
+    document.documentElement.style.setProperty('--board-text-color', this.gameOptions.boardTextColor);
+  }
+
+  updateBackgroundColor(): void {
+    document.documentElement.style.setProperty('--primary-color', this.theme.backgroundColor);
+  }
+
+  updateControlPanelTheme(): void {
+    this.themeService.updateDocumentStyles(this.theme);
   }
 
   updateWinPattern(winPattern: WinPattern): void {

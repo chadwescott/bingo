@@ -18,15 +18,7 @@ export class ThemeService {
             this.theme$.next(theme);
         });
 
-        this.theme$.subscribe(theme => {
-            document.documentElement.style.setProperty('--font-family', theme.font.fontFamily);
-            document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
-            document.documentElement.style.setProperty('--text-color', theme.textColor);
-            document.documentElement.style.setProperty('--card-color', theme.cardColor);
-            document.documentElement.style.setProperty('--text-transform', theme.uppercase ? 'uppercase' : 'none');
-            document.documentElement.style.setProperty('--text-shadow', theme.textShadow ? 'var(--text-shadow-on)' : 'none');
-            document.documentElement.style.setProperty('--font-weight', theme.bold ? 'bold' : 'none');
-        });
+        this.theme$.subscribe(theme => this.updateDocumentStyles(theme));
 
         this.loadData();
     }
@@ -46,5 +38,15 @@ export class ThemeService {
         this.channel.postMessage(theme);
         this.theme$.next(theme);
         localStorage.setItem(this._themeKey, JSON.stringify(theme));
+    }
+
+    updateDocumentStyles(theme: Theme): void {
+        document.documentElement.style.setProperty('--font-family', theme.font.fontFamily);
+        document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
+        document.documentElement.style.setProperty('--text-color', theme.textColor);
+        document.documentElement.style.setProperty('--card-color', theme.cardColor);
+        document.documentElement.style.setProperty('--text-transform', theme.uppercase ? 'uppercase' : 'none');
+        document.documentElement.style.setProperty('--text-shadow', theme.textShadow ? 'var(--text-shadow-on)' : 'none');
+        document.documentElement.style.setProperty('--font-weight', theme.bold ? 'bold' : 'none');
     }
 }

@@ -3,9 +3,9 @@
     <div class="card">
         <mat-tab-group>
             <mat-tab label="Game Options">
-                <div class="row" start top no-wrap expand>
+                <div class="row" top no-wrap expand>
                     <div class="column" top expand>
-                        <div class="row" start top>
+                        <div class="row" top>
                             <mat-form-field class="small">
                                 <mat-label>Load Game</mat-label>
                                 <mat-select [(value)]="currentGame" (selectionChange)="loadGame($event.value)">
@@ -28,7 +28,8 @@
                             <mat-form-field>
                                 <mat-label>Marker Color</mat-label>
                                 <input matInput [disabled]="gameOptions.disableMarkerColor"
-                                    [(ngModel)]="gameOptions.markerColor" type="color" />
+                                    [(ngModel)]="gameOptions.markerColor" type="color"
+                                    (ngModelChange)="updateMarkerColor()" />
                                 <span>{{ gameOptions.markerColor }}</span>
                                 <mat-slide-toggle [(ngModel)]="gameOptions.disableMarkerColor"
                                     (ngModelChange)="updateMarkerColor()">Use Board
@@ -45,6 +46,14 @@
                                 <textarea matInput [(ngModel)]="message" cdkTextareaAutosize cdkAutosizeMinRows="1"
                                     cdkAutosizeMaxRows="5"></textarea>
                             </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Win Pattern</mat-label>
+                                <mat-select [(value)]="gameOptions.winPattern">
+                                    @for (winPattern of winPatterns; track winPattern) {
+                                    <mat-option [value]="winPattern">{{ winPattern.name }}</mat-option>
+                                    }
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                         <div class="footer">
                             <div class="row" start>
@@ -57,15 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="column" center no-gap>
-                        <mat-form-field>
-                            <mat-label>Win Pattern</mat-label>
-                            <mat-select [(value)]="gameOptions.winPattern">
-                                @for (winPattern of winPatterns; track winPattern) {
-                                <mat-option [value]="winPattern">{{ winPattern.name }}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="column" center>
                         <bng-win-patterns [pattern]="gameOptions.winPattern"></bng-win-patterns>
                     </div>
                 </div>
@@ -74,31 +75,38 @@
                 <div class="row" start top>
                     <mat-form-field>
                         <mat-label>Background Color</mat-label>
-                        <input matInput [(ngModel)]="theme.backgroundColor" type="color" />
+                        <input matInput [(ngModel)]="theme.backgroundColor" type="color"
+                            (ngModelChange)="updateBackgroundColor()" />
                         <span>{{ theme.backgroundColor }}</span>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Card Color</mat-label>
-                        <input matInput [(ngModel)]="theme.cardColor" type="color" />
+                        <input matInput [(ngModel)]="theme.cardColor" type="color"
+                            (ngModelChange)="updateControlPanelTheme()" />
                         <span>{{ theme.cardColor }}</span>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Text Color</mat-label>
-                        <input matInput [(ngModel)]="theme.textColor" type="color" />
+                        <input matInput [(ngModel)]="theme.textColor" type="color"
+                            (ngModelChange)="updateControlPanelTheme()" />
                         <span>{{ theme.textColor }}</span>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Font</mat-label>
-                        <mat-select [(value)]="theme.font">
+                        <mat-select [(value)]="theme.font" (selectionChange)="updateControlPanelTheme()">
                             @for (font of fonts; track font) {
                             <mat-option [value]="font">{{ font.name }}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
                     <div class="column" start top>
-                        <mat-slide-toggle [(ngModel)]="theme.uppercase">Uppercase</mat-slide-toggle>
-                        <mat-slide-toggle [(ngModel)]="theme.bold">Bold</mat-slide-toggle>
-                        <mat-slide-toggle [(ngModel)]="theme.textShadow">Text Shadow</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="theme.uppercase"
+                            (ngModelChange)="updateControlPanelTheme()">Uppercase</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="theme.bold"
+                            (ngModelChange)="updateControlPanelTheme()">Bold</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="theme.textShadow"
+                            (ngModelChange)="updateControlPanelTheme()">Text
+                            Shadow</mat-slide-toggle>
                     </div>
                 </div>
                 <div class="row" start>

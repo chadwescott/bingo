@@ -93,6 +93,7 @@ export class GameService {
 
         document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColor);
         document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
+        document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
 
         const games = this.games$.value;
         games[games.findIndex(g => g.startTime === currentGame.startTime)] = currentGame;

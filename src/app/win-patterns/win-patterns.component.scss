@@ -3,6 +3,8 @@
     flex-direction: column;
     --box-size: calc(100vw / 32);
     border: solid var(--border-width) var(--board-color);
+    box-shadow: var(--card-box-shadow);
+    margin: 0.15vw;
 
     > div {
         display: flex;
