@@ -121,7 +121,21 @@
           }
         },
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy"
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "bingo:build:production",
+              "serveTarget": "bingo:serve:production"
+            },
+            "development": {
+              "buildTarget": "bingo:build:development",
+              "serveTarget": "bingo:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

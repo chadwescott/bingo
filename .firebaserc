@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "bingo-3e990": {
+      "hosting": {
+        "bingo": [
+          "bingo-58c01"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "bingo-3e990"
+  }
+}

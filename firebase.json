@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "bingo",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

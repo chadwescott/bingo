@@ -7,6 +7,7 @@ import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
 import { WinPattern } from "../models/win-pattern.model";
 import { winPatterns } from "../models/win-patterns.model";
+import { FireStoreService } from "./fire-store.service";
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,7 @@ export class GameService {
     private readonly _currentGameKey = 'bingo-current-game';
     private readonly _gamesKey = 'bingo-games';
 
-    constructor() {
+    constructor(fireStoreService: FireStoreService) {
         this.channel.addEventListener('message', event => {
             const currentGame = event.data as Game;
             this.currentGame$.next(currentGame);
@@ -34,6 +35,9 @@ export class GameService {
         });
 
         this.loadData();
+
+        fireStoreService.connectToStore('bingo');
+        fireStoreService.games?.subscribe(g => console.log(g));
     }
 
     private loadData(): void {
