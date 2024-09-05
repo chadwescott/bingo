@@ -35,9 +35,6 @@ export class GameService {
         });
 
         this.loadData();
-
-        fireStoreService.connectToStore('bingo');
-        fireStoreService.games?.subscribe(g => console.log(g));
     }
 
     private loadData(): void {
