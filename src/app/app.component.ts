@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ThemeService } from './services/theme.service';
+import { FireStoreService } from './services/fire-store.service';
 
 @Component({
   selector: 'bng-root',
@@ -7,6 +7,6 @@ import { ThemeService } from './services/theme.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(public readonly themeService: ThemeService) {
+  constructor(public readonly themeService: FireStoreService) {
   }
 }

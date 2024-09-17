@@ -1,19 +1,26 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, filter, Subscription } from "rxjs";
 import { Ball } from "../models/ball.model";
 import { Balls } from "../models/balls.model";
-import { defaultGameOptions as DefaultGameOptions, GameOptions } from "../models/game-options.model";
+import { fonts } from "../models/font.model";
+import { GameOptions } from "../models/game-options.model";
 import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
+import { defaultTheme, Theme } from "../models/theme.model";
 import { WinPattern } from "../models/win-pattern.model";
-import { winPatterns } from "../models/win-patterns.model";
+
+export interface GameData {
+    currentGameIndex: number;
+    games: string[];
+    theme: Theme;
+}
 
 @Injectable({
     providedIn: 'root'
 })
-export class FireStoreService {
-    private gamesCollection: AngularFirestoreCollection<{ currentGameIndex: number, games: string[] }> = this.firestore.collection('bingo');
+export class FireStoreService implements OnDestroy {
+    private gamesCollection: AngularFirestoreCollection<GameData> = this.firestore.collection('bingo');
     private documentId: string = '';
     private currentGameIndex = 0;
 
@@ -22,25 +29,35 @@ export class FireStoreService {
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
     lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     previousCalls$: BehaviorSubject<Ball[]> = new BehaviorSubject<Ball[]>([]);
+    theme$ = new BehaviorSubject<Theme>(defaultTheme);
+
+    private subscriptions$: Subscription[] = [];
 
     constructor(private firestore: AngularFirestore) {
         this.connect('7kqMsz6d43Q2pkB0iUNM');
     }
 
-    connect(id: string): void {
-        this.gamesCollection.doc(id).get().subscribe(x => 
-            {
-                console.log(x.data)
-                this.documentId = id;
-            });
+    ngOnDestroy(): void {
+        this.subscriptions$.map(s => s.unsubscribe());
+    }
 
-        this.gamesCollection.valueChanges().subscribe(game => {
-            if (game.length > 0)
-            {
-                const games = game[0].games?.map(game => JSON.parse(game));
+    connect(id: string): void {
+        this.subscriptions$.push(this.gamesCollection.doc(id).valueChanges()
+            .pipe(filter(d => !!d))
+            .subscribe(data => {
+                if (!data) { return; }
+
+                const theme = data.theme;
+                theme.font = fonts.find(f => f.name === theme.font.name) ?? defaultTheme.font;
+                this.theme$.next(theme);
+                this.updateDocumentStyles(theme);
+
+                this.documentId = id;
+                const games = data.games?.map(game => JSON.parse(game));
                 this.games$.next(games);
-                this.currentGameIndex = game[0].currentGameIndex;
+                this.currentGameIndex = data.currentGameIndex;
                 const currentGame = games[this.currentGameIndex];
+
                 if (!currentGame) { return; }
 
                 this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
@@ -50,7 +67,7 @@ export class FireStoreService {
                 this.updatePreviousCalls(currentGame);
                 this.currentGame$.next(currentGame);
             }
-        });
+        ));
     }
 
     updateGame(game: Game): void {
@@ -58,11 +75,11 @@ export class FireStoreService {
             const games = this.games$.value;
             const currentGameIndex = games.findIndex(g => g === game);
             games[currentGameIndex] = game;
-            this.gamesCollection?.doc(this.documentId).update({currentGameIndex: currentGameIndex, games: games.map(g => JSON.stringify(g)) });
+            this.gamesCollection?.doc(this.documentId).update({ currentGameIndex: currentGameIndex, games: games.map(g => JSON.stringify(g)) });
         }
         else {
             const gameJson = JSON.stringify(game);
-            this.gamesCollection?.add({ currentGameIndex: 0, games: [gameJson] }).then(x => {
+            this.gamesCollection?.add({ currentGameIndex: 0, games: [gameJson], theme: this.theme$.value }).then(x => {
                 this.documentId = x.id;
                 this.documentId$.next(x.id);
             });
@@ -109,7 +126,7 @@ export class FireStoreService {
             this.gamesCollection?.doc(this.documentId).update({ currentGameIndex: this.currentGameIndex, games: gamesJson });
         }
         else {
-            this.gamesCollection?.add({ currentGameIndex: this.currentGameIndex, games: gamesJson }).then(x => {
+            this.gamesCollection?.add({ currentGameIndex: this.currentGameIndex, games: gamesJson, theme: this.theme$.value }).then(x => {
                 this.documentId = x.id;
                 this.documentId$.next(x.id);
             });
@@ -194,5 +211,21 @@ export class FireStoreService {
 
     clearGames(): void {
         this.games$.next([]);
+    }
+
+    updateTheme(theme: Theme): void {
+        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
+        // this.channel.postMessage(theme);
+        this.gamesCollection?.doc(this.documentId).update({theme: theme});
+    }
+
+    updateDocumentStyles(theme: Theme): void {
+        document.documentElement.style.setProperty('--font-family', theme.font.fontFamily);
+        document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
+        document.documentElement.style.setProperty('--text-color', theme.textColor);
+        document.documentElement.style.setProperty('--card-color', theme.cardColor);
+        document.documentElement.style.setProperty('--text-transform', theme.uppercase ? 'uppercase' : 'none');
+        document.documentElement.style.setProperty('--text-shadow', theme.textShadow ? 'var(--text-shadow-on)' : 'none');
+        document.documentElement.style.setProperty('--font-weight', theme.bold ? 'bold' : 'none');
     }
 }

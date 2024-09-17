@@ -26,7 +26,7 @@ export class ControlPanelComponent {
   fonts = fonts;
   controlPanelId = '#controlPanel';
 
-  constructor(private readonly gameService: FireStoreService, private readonly themeService: ThemeService) {
+  constructor(private readonly gameService: FireStoreService) {
   }
 
   ngOnInit() {
@@ -40,7 +40,8 @@ export class ControlPanelComponent {
       this.gameOptions.winPattern = this.winPatterns.find(wp => wp.name === this.gameOptions.winPattern.name) ?? this.winPatterns[0];
     }));
 
-    this.subscriptions$.push(this.themeService.theme$.subscribe(theme => {
+    this.subscriptions$.push(this.gameService.theme$.subscribe(theme => {
+      console.log(theme);
       this.theme = theme;
     }));
   }
@@ -89,7 +90,7 @@ export class ControlPanelComponent {
   }
 
   updateControlPanelTheme(): void {
-    this.themeService.updateDocumentStyles(this.theme);
+    this.gameService.updateDocumentStyles(this.theme);
   }
 
   updateWinPattern(winPattern: WinPattern): void {
@@ -112,10 +113,10 @@ export class ControlPanelComponent {
   }
 
   updateTheme(): void {
-    this.themeService.updateTheme(this.theme);
+    this.gameService.updateTheme(this.theme);
   }
 
   resetTheme(): void {
-    this.themeService.updateTheme({ ...defaultTheme });
+    this.gameService.updateTheme({ ...defaultTheme });
   }
 }
