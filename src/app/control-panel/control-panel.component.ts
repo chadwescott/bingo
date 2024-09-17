@@ -6,7 +6,7 @@ import { Game } from '../models/game.model';
 import { Theme, defaultTheme } from '../models/theme.model';
 import { WinPattern } from '../models/win-pattern.model';
 import { winPatterns } from '../models/win-patterns.model';
-import { GameService } from '../services/game.service';
+import { FireStoreService } from '../services/fire-store.service';
 import { ThemeService } from '../services/theme.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class ControlPanelComponent {
   fonts = fonts;
   controlPanelId = '#controlPanel';
 
-  constructor(private readonly gameService: GameService, private readonly themeService: ThemeService) {
+  constructor(private readonly gameService: FireStoreService, private readonly themeService: ThemeService) {
   }
 
   ngOnInit() {
@@ -37,6 +37,7 @@ export class ControlPanelComponent {
       this.message = game.message;
       this.gameOptions = { ...game.options };
       this.gameOptions.markerColor = game.options.disableMarkerColor ? game.options.boardColor : game.options.markerColor;
+      this.gameOptions.winPattern = this.winPatterns.find(wp => wp.name === this.gameOptions.winPattern.name) ?? this.winPatterns[0];
     }));
 
     this.subscriptions$.push(this.themeService.theme$.subscribe(theme => {

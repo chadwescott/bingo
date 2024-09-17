@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameService } from '../services/game.service';
+import { FireStoreService } from '../services/fire-store.service';
 
 @Component({
   selector: 'bng-dashboard',
@@ -7,6 +7,6 @@ import { GameService } from '../services/game.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  constructor(public readonly gameService: GameService) {
+  constructor(public readonly gameService: FireStoreService) {
   }
 }

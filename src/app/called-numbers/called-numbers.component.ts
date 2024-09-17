@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Ball } from '../models/ball.model';
 import { Letters } from '../models/letters.model';
-import { GameService } from '../services/game.service';
+import { FireStoreService } from '../services/fire-store.service';
 
 @Component({
   selector: 'bng-called-numbers',
@@ -15,7 +15,7 @@ export class CalledNumbersComponent {
   letters = Object.values(Letters);
   lastCall$ = this.gameService.lastCall$;
 
-  constructor(private readonly gameService: GameService) {
+  constructor(private readonly gameService: FireStoreService) {
   }
 
   ngOnInit() {

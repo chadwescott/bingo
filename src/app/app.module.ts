@@ -62,11 +62,22 @@ import { WinPatternsComponent } from './win-patterns/win-patterns.component';
     MatSlideToggleModule,
     MatSelectModule,
     MatTabsModule,
-    provideFirebaseApp(() => initializeApp({ "projectId": "bingo-3e990", "appId": "1:683623056065:web:726265d0df07f90ebf8a40", "storageBucket": "bingo-3e990.appspot.com", "apiKey": "AIzaSyCLzYr8vPDi9wgzmQQ7bh6IIu-WgRhPGO8", "authDomain": "bingo-3e990.firebaseapp.com", "messagingSenderId": "683623056065", "measurementId": "G-Z6Q8TETBRR" })),
+    provideFirebaseApp(() => initializeApp({
+      "projectId": "bingo-3e990",
+      "appId": "1:683623056065:web:726265d0df07f90ebf8a40",
+      "storageBucket": "bingo-3e990.appspot.com",
+      "apiKey": "AIzaSyCLzYr8vPDi9wgzmQQ7bh6IIu-WgRhPGO8",
+      "authDomain": "bingo-3e990.firebaseapp.com",
+      "messagingSenderId": "683623056065",
+      "measurementId": "G-Z6Q8TETBRR"
+    })),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore())
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, provideAnimations()],
+  providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    provideAnimations()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

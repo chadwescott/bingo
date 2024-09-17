@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GameService } from '../services/game.service';
+import { FireStoreService } from '../services/fire-store.service';
 
 @Component({
   selector: 'bng-previous-calls',
@@ -7,5 +7,5 @@ import { GameService } from '../services/game.service';
   styleUrl: './previous-calls.component.scss'
 })
 export class PreviousCallsComponent {
-  constructor(public gameService: GameService) { }
+  constructor(public gameService: FireStoreService) { }
 }
