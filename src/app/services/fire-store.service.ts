@@ -9,6 +9,7 @@ import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
 import { defaultTheme, Theme } from "../models/theme.model";
 import { WinPattern } from "../models/win-pattern.model";
+import { collectionData } from "@angular/fire/firestore";
 
 export interface GameData {
     currentGameIndex: number;
@@ -20,75 +21,85 @@ export interface GameData {
     providedIn: 'root'
 })
 export class FireStoreService implements OnDestroy {
-    private gamesCollection: AngularFirestoreCollection<GameData> = this.firestore.collection('bingo');
-    private documentId: string = '';
-    private currentGameIndex = 0;
+    private readonly _documentKey = 'document-id';
 
-    documentId$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+    private gamesCollection: AngularFirestoreCollection<GameData> = this.firestore.collection('bingo');
+    private currentGameIndex = 0;
+    private subscriptions$: Subscription[] = [];
+
+    documentId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     currentGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
     lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     previousCalls$: BehaviorSubject<Ball[]> = new BehaviorSubject<Ball[]>([]);
     theme$ = new BehaviorSubject<Theme>(defaultTheme);
 
-    private subscriptions$: Subscription[] = [];
-
     constructor(private firestore: AngularFirestore) {
-        this.connect('7kqMsz6d43Q2pkB0iUNM');
+        const documentId = localStorage.getItem(this._documentKey);
+
+        if (documentId) {
+            this.connectToSession(documentId);
+        }
     }
 
     ngOnDestroy(): void {
         this.subscriptions$.map(s => s.unsubscribe());
     }
 
-    connect(id: string): void {
+    connectToSession(id: string): void {
+        localStorage.setItem(this._documentKey, id);
+
+        this.subscriptions$.push(this.gamesCollection.doc(id).get()
+            .pipe(filter(d => !!d.data))
+            .subscribe(d => {
+                const data = d.data();
+                if (!data) { return; }
+
+                this.updateData(id, data);
+            }));
+
         this.subscriptions$.push(this.gamesCollection.doc(id).valueChanges()
-            .pipe(filter(d => !!d))
+            .pipe(filter(data => !!data))
             .subscribe(data => {
                 if (!data) { return; }
 
-                const theme = data.theme;
-                theme.font = fonts.find(f => f.name === theme.font.name) ?? defaultTheme.font;
-                this.theme$.next(theme);
-                this.updateDocumentStyles(theme);
+                this.updateData(id, data);
+            }));
+    }
 
-                this.documentId = id;
-                const games = data.games?.map(game => JSON.parse(game));
-                this.games$.next(games);
-                this.currentGameIndex = data.currentGameIndex;
-                const currentGame = games[this.currentGameIndex];
+    deleteSession(id: string): void {
+        this.gamesCollection.doc(id).delete();
+    }
 
-                if (!currentGame) { return; }
+    private updateData(id: string, data: GameData): void {
+        const theme = data.theme;
+        theme.font = fonts.find(f => f.name === theme.font.name) ?? defaultTheme.font;
+        this.theme$.next(theme);
+        this.updateDocumentStyles(theme);
 
-                this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
-                document.documentElement.style.setProperty('--board-color', currentGame.options.boardColor);
-                document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
-                document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
-                this.updatePreviousCalls(currentGame);
-                this.currentGame$.next(currentGame);
-            }
-        ));
+        this.documentId$.next(id);
+        localStorage.setItem(this._documentKey, id);
+        const games = data.games?.map(game => JSON.parse(game));
+        this.games$.next(games);
+        this.currentGameIndex = data.currentGameIndex;
+        const currentGame = games[this.currentGameIndex];
+
+        if (!currentGame) { return; }
+
+        this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
+        document.documentElement.style.setProperty('--board-color', currentGame.options.boardColor);
+        document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
+        document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
+        this.updatePreviousCalls(currentGame);
+        this.currentGame$.next(currentGame);
     }
 
     updateGame(game: Game): void {
-        if (this.documentId) {
-            const games = this.games$.value;
-            const currentGameIndex = games.findIndex(g => g === game);
-            games[currentGameIndex] = game;
-            this.gamesCollection?.doc(this.documentId).update({ currentGameIndex: currentGameIndex, games: games.map(g => JSON.stringify(g)) });
-        }
-        else {
-            const gameJson = JSON.stringify(game);
-            this.gamesCollection?.add({ currentGameIndex: 0, games: [gameJson], theme: this.theme$.value }).then(x => {
-                this.documentId = x.id;
-                this.documentId$.next(x.id);
-            });
-        }
-    }
+        const games = this.games$.value;
+        const currentGameIndex = games.findIndex(g => g === game);
+        games[currentGameIndex] = game;
 
-    private updateLastCall() {
-        const currentGame = this.currentGame$.value;
-        this.lastCall$.next(currentGame && currentGame.calls.length > 0 ? currentGame.calls[currentGame.calls.length - 1] : null);
+        this.saveGames(games);
     }
 
     private updatePreviousCalls(game: Game) {
@@ -113,22 +124,18 @@ export class FireStoreService implements OnDestroy {
         document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColor);
         document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
         document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
-
-        const games = this.games$.value;
-        games[games.findIndex(g => g.startTime === currentGame.startTime)] = currentGame;
-        this.games$.next(games);
-        this.saveGames(games);
     }
 
     private saveGames(games: Game[]): void {
         const gamesJson = games.map(game => JSON.stringify(game));
-        if (this.documentId) {
-            this.gamesCollection?.doc(this.documentId).update({ currentGameIndex: this.currentGameIndex, games: gamesJson });
+
+        if (this.documentId$.value) {
+            this.gamesCollection?.doc(this.documentId$.value).update({ currentGameIndex: this.currentGameIndex, games: gamesJson });
         }
         else {
             this.gamesCollection?.add({ currentGameIndex: this.currentGameIndex, games: gamesJson, theme: this.theme$.value }).then(x => {
-                this.documentId = x.id;
                 this.documentId$.next(x.id);
+                localStorage.setItem(this._documentKey, x.id);
             });
         }
     }
@@ -175,7 +182,6 @@ export class FireStoreService implements OnDestroy {
             }
         }
 
-        this.updateLastCall();
         this.updatePreviousCalls(currentGame);
         this.saveCurrentGame();
     }
@@ -204,19 +210,13 @@ export class FireStoreService implements OnDestroy {
         } else {
             this.currentGameIndex = games.findIndex(g => g === game);
         }
-        console.log(this.currentGameIndex);
 
         this.saveGames(games);
     }
 
-    clearGames(): void {
-        this.games$.next([]);
-    }
-
     updateTheme(theme: Theme): void {
         theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
-        // this.channel.postMessage(theme);
-        this.gamesCollection?.doc(this.documentId).update({theme: theme});
+        this.gamesCollection?.doc(this.documentId$.value).update({ theme: theme });
     }
 
     updateDocumentStyles(theme: Theme): void {

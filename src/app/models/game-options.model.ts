@@ -9,7 +9,7 @@ export interface GameOptions {
     winPattern: WinPattern
 }
 
-export const defaultGameOptions: GameOptions = {
+export const DefaultGameOptions: GameOptions = {
     boardColor: '#ff0000',
     boardTextColor: '#ffffff',
     markerColor: '#ff0000',

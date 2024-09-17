@@ -33,14 +33,7 @@ export class ThemeService {
         }
     }
 
-    updateTheme(theme: Theme): void {
-        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
-        this.channel.postMessage(theme);
-        this.theme$.next(theme);
-        localStorage.setItem(this._themeKey, JSON.stringify(theme));
-    }
-
-    updateDocumentStyles(theme: Theme): void {
+    private updateDocumentStyles(theme: Theme): void {
         document.documentElement.style.setProperty('--font-family', theme.font.fontFamily);
         document.documentElement.style.setProperty('--primary-color', theme.backgroundColor);
         document.documentElement.style.setProperty('--text-color', theme.textColor);
@@ -48,5 +41,12 @@ export class ThemeService {
         document.documentElement.style.setProperty('--text-transform', theme.uppercase ? 'uppercase' : 'none');
         document.documentElement.style.setProperty('--text-shadow', theme.textShadow ? 'var(--text-shadow-on)' : 'none');
         document.documentElement.style.setProperty('--font-weight', theme.bold ? 'bold' : 'none');
+    }
+
+    updateTheme(theme: Theme): void {
+        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
+        this.channel.postMessage(theme);
+        this.theme$.next(theme);
+        localStorage.setItem(this._themeKey, JSON.stringify(theme));
     }
 }

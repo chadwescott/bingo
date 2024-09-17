@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { Ball } from "../models/ball.model";
 import { Balls } from "../models/balls.model";
-import { defaultGameOptions as DefaultGameOptions, GameOptions } from "../models/game-options.model";
+import { DefaultGameOptions, GameOptions } from "../models/game-options.model";
 import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
 import { WinPattern } from "../models/win-pattern.model";
@@ -179,11 +179,5 @@ export class GameService {
             this.currentGame$.next(null);
             localStorage.removeItem(this._currentGameKey);
         }
-
-    }
-
-    clearGames(): void {
-        this.games$.next([]);
-        localStorage.removeItem(this._gamesKey);
     }
 }

@@ -62,7 +62,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -121,6 +121,12 @@
           }
         },
         "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://chadwescott.github.io/bingo/"
+          }
+        },
+        "firestore": {
           "builder": "@angular/fire:deploy",
           "options": {
             "version": 2

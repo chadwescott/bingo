@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { fonts } from '../models/font.model';
-import { defaultGameOptions } from '../models/game-options.model';
+import { DefaultGameOptions } from '../models/game-options.model';
 import { Game } from '../models/game.model';
 import { Theme, defaultTheme } from '../models/theme.model';
 import { WinPattern } from '../models/win-pattern.model';
 import { winPatterns } from '../models/win-patterns.model';
 import { FireStoreService } from '../services/fire-store.service';
-import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'bng-control-panel',
@@ -16,11 +15,12 @@ import { ThemeService } from '../services/theme.service';
 })
 export class ControlPanelComponent {
   games$ = this.gameService.games$;
+  documentId = '';
   currentGame: Game | null = null;
   winPatterns = winPatterns;
   gameNumber = 1;
   message = '';
-  gameOptions = defaultGameOptions;
+  gameOptions = DefaultGameOptions;
   subscriptions$: Subscription[] = [];
   theme: Theme = { ...defaultTheme }
   fonts = fonts;
@@ -30,6 +30,8 @@ export class ControlPanelComponent {
   }
 
   ngOnInit() {
+    this.subscriptions$.push(this.gameService.documentId$.subscribe(id => this.documentId = id));
+
     this.subscriptions$.push(this.gameService.currentGame$.subscribe(game => {
       this.currentGame = game;
       if (!game) { return; }
@@ -41,7 +43,6 @@ export class ControlPanelComponent {
     }));
 
     this.subscriptions$.push(this.gameService.theme$.subscribe(theme => {
-      console.log(theme);
       this.theme = theme;
     }));
   }
@@ -118,5 +119,18 @@ export class ControlPanelComponent {
 
   resetTheme(): void {
     this.gameService.updateTheme({ ...defaultTheme });
+  }
+
+  loadSession(): void {
+    this.gameService.connectToSession(this.documentId);
+  }
+
+  newSession(): void {
+    this.gameService.documentId$.next('');
+    this.newGame();
+  }
+
+  deleteSession(): void {
+    this.gameService.deleteSession(this.documentId);
   }
 }

@@ -2,6 +2,17 @@
     <bng-called-numbers class="row" center [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
     <div class="card">
         <mat-tab-group>
+            <mat-tab label="Session">
+                <div class="row" start>
+                    <mat-form-field wide>
+                        <mat-label>Session Id</mat-label>
+                        <input matInput [(ngModel)]="documentId" />
+                    </mat-form-field>
+                    <button mat-flat-button color="primary" (click)="loadSession()">Load Session</button>
+                    <button mat-flat-button color="primary" (click)="newSession()">New Session</button>
+                    <button mat-flat-button color="primary" (click)="deleteSession()">Delete Session</button>
+                </div>
+            </mat-tab>
             <mat-tab label="Game Options">
                 <div class="row" top no-wrap expand>
                     <div class="column" top expand>
