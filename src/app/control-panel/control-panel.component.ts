@@ -50,7 +50,7 @@ export class ControlPanelComponent {
   }
 
   newGame(): void {
-    this.gameService.createGame(this.gameNumber, this.gameOptions, this.message);
+    this.gameService.createGame(this.gameOptions, this.message);
   }
 
   updateGame(): void {

@@ -41,13 +41,13 @@ export class FireStoreService {
                 this.games$.next(games);
                 this.currentGameIndex = game[0].currentGameIndex;
                 const currentGame = games[this.currentGameIndex];
+                if (!currentGame) { return; }
 
                 this.lastCall$.next(currentGame?.calls[currentGame?.calls.length - 1]);
                 document.documentElement.style.setProperty('--board-color', currentGame.options.boardColor);
                 document.documentElement.style.setProperty('--marker-color', currentGame.options.markerColor);
                 document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
                 this.updatePreviousCalls(currentGame);
-                this.updateGameWinPattern(currentGame);
                 this.currentGame$.next(currentGame);
             }
         });
@@ -56,8 +56,9 @@ export class FireStoreService {
     updateGame(game: Game): void {
         if (this.documentId) {
             const games = this.games$.value;
-            games[this.currentGameIndex] = game;
-            this.gamesCollection?.doc(this.documentId).update({ games: games.map(g => JSON.stringify(g)) });
+            const currentGameIndex = games.findIndex(g => g === game);
+            games[currentGameIndex] = game;
+            this.gamesCollection?.doc(this.documentId).update({currentGameIndex: currentGameIndex, games: games.map(g => JSON.stringify(g)) });
         }
         else {
             const gameJson = JSON.stringify(game);
@@ -66,38 +67,6 @@ export class FireStoreService {
                 this.documentId$.next(x.id);
             });
         }
-    }
-
-
-
-    // private loadData(): void {
-    //     const gamesJson = localStorage.getItem(this._gamesKey);
-    //     if (gamesJson) {
-    //         const games = JSON.parse(gamesJson) as Game[];
-    //         games.map(game => this.updateGameWinPattern(game));
-    //         this.games$.next(games);
-    //     }
-
-    //     const currentGameJson = localStorage.getItem(this._currentGameKey);
-    //     if (currentGameJson) {
-    //         try {
-    //             const currentGame = JSON.parse(currentGameJson) as Game;
-    //             this.updateGameWinPattern(currentGame);
-    //             this.currentGame$.next(currentGame);
-    //             this.updateLastCall();
-    //             this.updatePreviousCalls();
-    //         } catch (error) {
-    //             this.createGame(1, DefaultGameOptions);
-    //         }
-    //     } else {
-    //         this.createGame(1, DefaultGameOptions);
-    //     }
-    //     this.saveCurrentGame();
-    // }
-
-    private updateGameWinPattern(game: Game): void {
-        console.log(game.options);
-        // game.options.winPattern = winPatterns.find(wp => wp.name === game.options.winPattern.name) ?? winPatterns[0];
     }
 
     private updateLastCall() {
@@ -122,7 +91,6 @@ export class FireStoreService {
         const currentGame = this.currentGame$.value;
         if (!currentGame) { return; }
 
-        // localStorage.setItem(this._currentGameKey, JSON.stringify(currentGame));
         this.updateGame(currentGame);
 
         document.documentElement.style.setProperty('--board-color', currentGame?.options?.boardColor);
@@ -138,10 +106,9 @@ export class FireStoreService {
     private saveGames(games: Game[]): void {
         const gamesJson = games.map(game => JSON.stringify(game));
         if (this.documentId) {
-            this.gamesCollection?.doc(this.documentId).update({ games: gamesJson });
+            this.gamesCollection?.doc(this.documentId).update({ currentGameIndex: this.currentGameIndex, games: gamesJson });
         }
         else {
-            const gameJson = JSON.stringify(games[0]);
             this.gamesCollection?.add({ currentGameIndex: this.currentGameIndex, games: gamesJson }).then(x => {
                 this.documentId = x.id;
                 this.documentId$.next(x.id);
@@ -149,10 +116,10 @@ export class FireStoreService {
         }
     }
 
-    createGame(gameNumber: number, options: GameOptions, message: string = ''): void {
+    createGame(options: GameOptions, message: string = ''): void {
         options.markerColor = options.disableMarkerColor ? options.boardColor : options.markerColor;
         const game: Game = {
-            gameNumber: gameNumber,
+            gameNumber: this.games$.value.length + 1,
             options: options,
             message: message,
             startTime: new Date(),
@@ -160,13 +127,11 @@ export class FireStoreService {
             calls: []
         };
 
-        this.currentGame$.next(game);
-        this.saveCurrentGame();
-
         const games = this.games$.value;
         games.push(game);
         this.currentGameIndex = games.length - 1;
-        this.saveGames(games);
+        this.currentGame$.next(game);
+        this.saveCurrentGame();
     }
 
     private getBalls(): { [key in Letters]: Ball[] } {
@@ -215,12 +180,16 @@ export class FireStoreService {
     deleteGame(game: Game): void {
         const games = this.games$.value.filter(g => g.startTime !== game.startTime);
         this.games$.next(games);
-        this.saveGames(games);
 
         if (this.currentGame$.value === game) {
             this.currentGame$.next(null);
+            this.currentGameIndex--;
+        } else {
+            this.currentGameIndex = games.findIndex(g => g === game);
         }
+        console.log(this.currentGameIndex);
 
+        this.saveGames(games);
     }
 
     clearGames(): void {
