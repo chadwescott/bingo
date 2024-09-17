@@ -96,8 +96,8 @@ export class FireStoreService implements OnDestroy {
 
     updateGame(game: Game): void {
         const games = this.games$.value;
-        const currentGameIndex = games.findIndex(g => g === game);
-        games[currentGameIndex] = game;
+        this.currentGameIndex = games.findIndex(g => g === game);
+        games[this.currentGameIndex] = game;
 
         this.saveGames(games);
     }
