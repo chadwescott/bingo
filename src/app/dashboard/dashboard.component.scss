@@ -15,8 +15,8 @@
         grid-template-rows: auto 1fr;
 
         grid-template-areas:
-            'total-calls game-info win-patterns'
-            'current-call previous-calls win-patterns';
+            'current-call previous-calls win-patterns'
+            'total-calls game-info win-patterns';
 
         > * {
             height: 100%;
