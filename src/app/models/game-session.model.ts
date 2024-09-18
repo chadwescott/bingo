@@ -1,16 +1,17 @@
 import { Game } from "./game.model";
-import { Theme, defaultTheme } from "./theme.model";
+import { DefaultSession, Session } from "./session.model";
+import { DefaultTheme, Theme } from "./theme.model";
 
 export interface GameSession {
-    sessionId: string | null,
+    session: Session,
     theme: Theme,
     games: Game[],
     currentGame: Game | null
 }
 
-export const defaultGameSession: GameSession = {
-    sessionId: null,
-    theme: defaultTheme,
+export const DefaultGameSession: GameSession = {
+    session: DefaultSession,
+    theme: DefaultTheme,
     games: [],
     currentGame: null
 }

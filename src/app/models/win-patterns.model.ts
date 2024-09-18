@@ -38,7 +38,7 @@ import { TwoLinesPattern } from "./win-patterns/two-lines.pattern";
 import { WindowPattern } from "./win-patterns/window.pattern";
 import { XPattern } from "./win-patterns/x.pattern";
 
-export const winPatterns: WinPattern[] =
+export const WinPatterns: WinPattern[] =
     [
         NonePattern,
         OneCornerPostageStampPattern,

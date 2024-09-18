@@ -1,4 +1,11 @@
-<div class="card column">
-    <div class="game-name">Game: {{ game?.gameNumber }}</div>
+<div class="card column" start>
+    <div class="row" expand>
+        <div>{{ session?.title }}</div>
+        <div class="row">Game: {{ game?.gameNumber }}
+            <button aria-label="Leave Session" alt="Leave Session" title="Leave Session" (click)="leaveSession.emit()">
+                <mat-icon>exit_to_app</mat-icon>
+            </button>
+        </div>
+    </div>
     <div class="message">{{ game?.message }}</div>
 </div>

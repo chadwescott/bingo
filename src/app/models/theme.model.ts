@@ -1,4 +1,4 @@
-import { Font, fonts } from "./font.model";
+import { Font, Fonts } from "./font.model";
 
 export interface Theme {
     font: Font;
@@ -10,8 +10,8 @@ export interface Theme {
     uppercase: boolean;
 }
 
-export const defaultTheme: Theme = {
-    font: fonts[3],
+export const DefaultTheme: Theme = {
+    font: Fonts[3],
     backgroundColor: '#361b07',
     cardColor: '#3e372e',
     textColor: '#ffffff',

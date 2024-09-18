@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { fonts } from "../models/font.model";
-import { Theme, defaultTheme } from "../models/theme.model";
+import { Fonts } from "../models/font.model";
+import { DefaultTheme, Theme } from "../models/theme.model";
 
 @Injectable({
     providedIn: 'root'
 })
 export class ThemeService {
     channel = new BroadcastChannel('bingo-theme-channel');
-    theme$ = new BehaviorSubject<Theme>(defaultTheme);
+    theme$ = new BehaviorSubject<Theme>(DefaultTheme);
 
     private readonly _themeKey = 'bingo-theme';
 
@@ -44,7 +44,7 @@ export class ThemeService {
     }
 
     updateTheme(theme: Theme): void {
-        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
+        theme.font = Fonts.find(f => f.name === theme.font.name) ?? Fonts[0];
         this.channel.postMessage(theme);
         this.theme$.next(theme);
         localStorage.setItem(this._themeKey, JSON.stringify(theme));

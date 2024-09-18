@@ -1,23 +1,36 @@
 <div [attr.id]="controlPanelId" class="column" stretch>
-    <bng-called-numbers class="row" center [balls]="currentGame?.balls" [editable]="true"></bng-called-numbers>
+    <bng-called-numbers class="row" center [balls]="currentGame?.balls" [editable]="passwordValid"></bng-called-numbers>
     <div class="card">
         <mat-tab-group>
             <mat-tab label="Session">
                 <div class="row" start>
-                    <mat-form-field wide>
+                    <mat-form-field medium>
                         <mat-label>Session Id</mat-label>
                         <input matInput [(ngModel)]="documentId" />
                     </mat-form-field>
+                    <mat-form-field medium>
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" [(ngModel)]="password" (ngModelChange)="passwordChanged.next($event)" />
+                    </mat-form-field>
+                    <mat-form-field wide>
+                        <mat-label>Title</mat-label>
+                        <input matInput [(ngModel)]="session.title" />
+                    </mat-form-field>
+                    <mat-checkbox [(ngModel)]="session.active">Active</mat-checkbox>
+                </div>
+                <div class="row" start>
                     <button mat-flat-button color="primary" (click)="loadSession()">Load Session</button>
-                    <button mat-flat-button color="primary" (click)="newSession()">New Session</button>
-                    <button mat-flat-button color="primary" (click)="deleteSession()">Delete Session</button>
+                    <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="updateSession()">Save Session</button>
+                    <button [disabled]="!password" mat-flat-button color="primary" (click)="newSession()">New
+                        Session</button>
+                    <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="deleteSession()">Delete Session</button>
                 </div>
             </mat-tab>
             <mat-tab label="Game Options">
                 <div class="row" top no-wrap expand>
                     <div class="column" top expand>
                         <div class="row" top>
-                            <mat-form-field class="small">
+                            <mat-form-field small>
                                 <mat-label>Load Game</mat-label>
                                 <mat-select [(value)]="currentGame" (selectionChange)="loadGame($event.value)">
                                     @for (game of games$ | async; track game) {
@@ -26,11 +39,11 @@
                                 </mat-select>
                             </mat-form-field>
 
-                            <mat-form-field class="small">
+                            <mat-form-field small>
                                 <mat-label>Game Number</mat-label>
                                 <input matInput [(ngModel)]="gameNumber" type="number" />
                             </mat-form-field>
-                            <mat-form-field class="small">
+                            <mat-form-field small>
                                 <mat-label>Board Color</mat-label>
                                 <input matInput [(ngModel)]="gameOptions.boardColor" type="color"
                                     (ngModelChange)="updateBoardColor()" />
@@ -46,7 +59,7 @@
                                     (ngModelChange)="updateMarkerColor()">Use Board
                                     Color</mat-slide-toggle>
                             </mat-form-field>
-                            <mat-form-field class="small">
+                            <mat-form-field small>
                                 <mat-label>Board Text Color</mat-label>
                                 <input matInput [(ngModel)]="gameOptions.boardTextColor" type="color"
                                     (ngModelChange)="updateBoardTextColor()" />
@@ -68,12 +81,12 @@
                         </div>
                         <div class="footer">
                             <div class="row" start>
-                                <button mat-flat-button color="primary" (click)="newGame()">New Game</button>
-                                <button mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
+                                <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="newGame()">New Game</button>
+                                <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="updateGame()">Update Game</button>
                             </div>
                             <div class="row" end>
-                                <button mat-flat-button color="primary" (click)="resetGame()">Reset Game</button>
-                                <button mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
+                                <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="resetGame()">Reset Game</button>
+                                <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="deleteGame()">Delete Game</button>
                             </div>
                         </div>
                     </div>
@@ -121,8 +134,8 @@
                     </div>
                 </div>
                 <div class="row" start>
-                    <button mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
-                    <button mat-flat-button color="primary" (click)="resetTheme()">Reset Theme</button>
+                    <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="updateTheme()">Update Theme</button>
+                    <button [disabled]="!passwordValid" mat-flat-button color="primary" (click)="resetTheme()">Reset Theme</button>
                 </div>
             </mat-tab>
         </mat-tab-group>

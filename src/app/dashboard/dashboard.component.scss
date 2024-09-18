@@ -6,7 +6,6 @@
     gap: var(--gap-size);
 
     .footer {
-        text-transform: var(--text-transform, none);
         font-weight: var(--font-weight, normal);
         display: grid;
         gap: var(--gap-size);
@@ -24,6 +23,7 @@
         }
 
         .total-calls {
+            text-transform: var(--text-transform, none);
             grid-area: total-calls;
         }
 
@@ -32,14 +32,17 @@
         }
 
         .win-patterns {
+            text-transform: var(--text-transform, none);
             grid-area: win-patterns;
         }
 
         .current-call {
+            text-transform: var(--text-transform, none);
             grid-area: current-call;
         }
 
         .previous-calls {
+            text-transform: var(--text-transform, none);
             grid-area: previous-calls;
         }
     }

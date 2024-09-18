@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { fonts } from '../models/font.model';
+import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { debounceTime} from 'rxjs/operators';
+import { Fonts } from '../models/font.model';
 import { DefaultGameOptions } from '../models/game-options.model';
 import { Game } from '../models/game.model';
-import { Theme, defaultTheme } from '../models/theme.model';
+import { DefaultSession, Session } from '../models/session.model';
+import { DefaultTheme, Theme } from '../models/theme.model';
 import { WinPattern } from '../models/win-pattern.model';
-import { winPatterns } from '../models/win-patterns.model';
+import { WinPatterns } from '../models/win-patterns.model';
 import { FireStoreService } from '../services/fire-store.service';
+import { sha512 } from 'js-sha512';
 
 @Component({
   selector: 'bng-control-panel',
@@ -16,17 +19,25 @@ import { FireStoreService } from '../services/fire-store.service';
 export class ControlPanelComponent {
   games$ = this.gameService.games$;
   documentId = '';
+  session: Session = DefaultSession;
   currentGame: Game | null = null;
-  winPatterns = winPatterns;
+  winPatterns = WinPatterns;
+  password: string = '';
   gameNumber = 1;
   message = '';
+  passwordValid = false;
   gameOptions = DefaultGameOptions;
   subscriptions$: Subscription[] = [];
-  theme: Theme = { ...defaultTheme }
-  fonts = fonts;
+  theme: Theme = { ...DefaultTheme }
+  fonts = Fonts;
   controlPanelId = '#controlPanel';
+  passwordChanged = new Subject<string>();
 
   constructor(private readonly gameService: FireStoreService) {
+    this.passwordChanged.pipe(
+      debounceTime(400),
+      distinctUntilChanged())
+      .subscribe(value => this.validatePassword(value));
   }
 
   ngOnInit() {
@@ -45,6 +56,8 @@ export class ControlPanelComponent {
     this.subscriptions$.push(this.gameService.theme$.subscribe(theme => {
       this.theme = theme;
     }));
+
+    this.subscriptions$.push(this.gameService.currentSession$.subscribe(session => this.session = session ?? DefaultSession));
   }
 
   ngOnDestroy() {
@@ -118,7 +131,7 @@ export class ControlPanelComponent {
   }
 
   resetTheme(): void {
-    this.gameService.updateTheme({ ...defaultTheme });
+    this.gameService.updateTheme({ ...DefaultTheme });
   }
 
   loadSession(): void {
@@ -126,11 +139,20 @@ export class ControlPanelComponent {
   }
 
   newSession(): void {
-    this.gameService.documentId$.next('');
-    this.newGame();
+    this.session.password = this.password;
+    this.gameService.createSession(this.session);
+  }
+
+  updateSession(): void {
+    this.gameService.updateSession(this.session);
   }
 
   deleteSession(): void {
     this.gameService.deleteSession(this.documentId);
+  }
+
+  validatePassword(password: string): void {
+    const passKey = sha512(password);
+    this.passwordValid = this.session.password === passKey;
   }
 }

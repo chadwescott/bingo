@@ -1,5 +1,5 @@
 import { WinPattern } from "./win-pattern.model";
-import { winPatterns } from "./win-patterns.model";
+import { WinPatterns } from "./win-patterns.model";
 
 export interface GameOptions {
     boardColor: string,
@@ -14,5 +14,5 @@ export const DefaultGameOptions: GameOptions = {
     boardTextColor: '#ffffff',
     markerColor: '#ff0000',
     disableMarkerColor: false,
-    winPattern: winPatterns[0]
+    winPattern: WinPatterns[0]
 }

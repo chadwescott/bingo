@@ -6,7 +6,7 @@ import { DefaultGameOptions, GameOptions } from "../models/game-options.model";
 import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
 import { WinPattern } from "../models/win-pattern.model";
-import { winPatterns } from "../models/win-patterns.model";
+import { WinPatterns } from "../models/win-patterns.model";
 
 @Injectable({
     providedIn: 'root'
@@ -62,7 +62,7 @@ export class GameService {
     }
 
     private updateGameWinPattern(game: Game): void {
-        game.options.winPattern = winPatterns.find(wp => wp.name === game.options.winPattern.name) ?? winPatterns[0];
+        game.options.winPattern = WinPatterns.find(wp => wp.name === game.options.winPattern.name) ?? WinPatterns[0];
     }
 
     private updateLastCall() {

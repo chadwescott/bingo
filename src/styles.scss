@@ -165,11 +165,6 @@ mat-form-field {
     &[no-gap] {
         gap: 0;
     }
-
-    &[expand] {
-        height: 100%;
-        width: 100%;
-    }
 }
 
 .column {
@@ -181,10 +176,15 @@ mat-form-field {
 
     &[start] {
         align-items: start;
+        justify-content: start;
     }
 
     &[end] {
         align-items: end;
+    }
+
+    &[expand] {
+        height: 100%;
     }
 }
 
@@ -210,8 +210,47 @@ mat-form-field {
     &[top] {
         align-items: start;
     }
+
+    &[expand] {
+        width: 100%;
+    }
 }
 
 mat-form-field[wide] {
     width: min(30rem, 80vw);
+}
+
+mat-form-field[medium] {
+    width: min(20rem, 80vw);
+}
+
+mat-form-field[small] {
+    width: 10rem;
+}
+
+button {
+    --size: max(min(1.5vw, 1.5rem), .5rem);
+
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    padding: calc(var(--size) * 0.2);
+    display: flex;
+
+    &:not([disabled]) {
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: hsl(from var(--primary-color) h s calc(l - 2));
+    }
+
+    .mat-icon {
+        height: var(--size);
+        width: var(--size);
+    }
+
+    .material-icons {
+        font-size: var(--size);
+    }
 }

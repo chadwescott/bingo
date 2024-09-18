@@ -6,10 +6,9 @@ import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'dashboard/:documentId', component: DashboardComponent },
   { path: 'control-panel', component: ControlPanelComponent },
   { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,17 +1,19 @@
 import { Injectable, OnDestroy } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
+import { AngularFirestore, AngularFirestoreCollection, Query } from "@angular/fire/compat/firestore";
+import { sha512 } from 'js-sha512';
 import { BehaviorSubject, filter, Subscription } from "rxjs";
 import { Ball } from "../models/ball.model";
 import { Balls } from "../models/balls.model";
-import { fonts } from "../models/font.model";
+import { Fonts } from "../models/font.model";
 import { GameOptions } from "../models/game-options.model";
 import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
-import { defaultTheme, Theme } from "../models/theme.model";
+import { Session } from "../models/session.model";
+import { DefaultTheme, Theme } from "../models/theme.model";
 import { WinPattern } from "../models/win-pattern.model";
-import { collectionData } from "@angular/fire/firestore";
 
 export interface GameData {
+    session: Session;
     currentGameIndex: number;
     games: string[];
     theme: Theme;
@@ -28,11 +30,12 @@ export class FireStoreService implements OnDestroy {
     private subscriptions$: Subscription[] = [];
 
     documentId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    currentSession$: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
     currentGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
     lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     previousCalls$: BehaviorSubject<Ball[]> = new BehaviorSubject<Ball[]>([]);
-    theme$ = new BehaviorSubject<Theme>(defaultTheme);
+    theme$ = new BehaviorSubject<Theme>(DefaultTheme);
 
     constructor(private firestore: AngularFirestore) {
         const documentId = localStorage.getItem(this._documentKey);
@@ -48,6 +51,10 @@ export class FireStoreService implements OnDestroy {
 
     connectToSession(id: string): void {
         localStorage.setItem(this._documentKey, id);
+        this.documentId$.next(id);
+        this.currentGame$.next(null);
+        this.lastCall$.next(null);
+        this.previousCalls$.next([]);
 
         this.subscriptions$.push(this.gamesCollection.doc(id).get()
             .pipe(filter(d => !!d.data))
@@ -55,6 +62,7 @@ export class FireStoreService implements OnDestroy {
                 const data = d.data();
                 if (!data) { return; }
 
+                this.currentSession$.next(data.session);
                 this.updateData(id, data);
             }));
 
@@ -67,13 +75,17 @@ export class FireStoreService implements OnDestroy {
             }));
     }
 
+    getActiveSessions(): Query<GameData> {
+        return this.gamesCollection.ref.where('session.active', '==', true);
+    }
+
     deleteSession(id: string): void {
         this.gamesCollection.doc(id).delete();
     }
 
     private updateData(id: string, data: GameData): void {
         const theme = data.theme;
-        theme.font = fonts.find(f => f.name === theme.font.name) ?? defaultTheme.font;
+        theme.font = Fonts.find(f => f.name === theme.font.name) ?? DefaultTheme.font;
         this.theme$.next(theme);
         this.updateDocumentStyles(theme);
 
@@ -132,12 +144,6 @@ export class FireStoreService implements OnDestroy {
         if (this.documentId$.value) {
             this.gamesCollection?.doc(this.documentId$.value).update({ currentGameIndex: this.currentGameIndex, games: gamesJson });
         }
-        else {
-            this.gamesCollection?.add({ currentGameIndex: this.currentGameIndex, games: gamesJson, theme: this.theme$.value }).then(x => {
-                this.documentId$.next(x.id);
-                localStorage.setItem(this._documentKey, x.id);
-            });
-        }
     }
 
     createGame(options: GameOptions, message: string = ''): void {
@@ -156,6 +162,19 @@ export class FireStoreService implements OnDestroy {
         this.currentGameIndex = games.length - 1;
         this.currentGame$.next(game);
         this.saveCurrentGame();
+    }
+
+    createSession(session: Session): void {
+        if (!session.password) { return; }
+        session.password = sha512(session.password);
+        this.gamesCollection?.add({ session: session, currentGameIndex: -1, games: [], theme: this.theme$.value }).then(x => {
+            this.documentId$.next(x.id);
+            localStorage.setItem(this._documentKey, x.id);
+        });
+    }
+
+    updateSession(session: Session): void {
+        this.gamesCollection.doc(this.documentId$.value).update({ session: session });
     }
 
     private getBalls(): { [key in Letters]: Ball[] } {
@@ -215,7 +234,7 @@ export class FireStoreService implements OnDestroy {
     }
 
     updateTheme(theme: Theme): void {
-        theme.font = fonts.find(f => f.name === theme.font.name) ?? fonts[0];
+        theme.font = Fonts.find(f => f.name === theme.font.name) ?? Fonts[0];
         this.gamesCollection?.doc(this.documentId$.value).update({ theme: theme });
     }
 

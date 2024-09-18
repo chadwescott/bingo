@@ -3,7 +3,7 @@ export interface Font {
     fontFamily: string;
 }
 
-export const fonts: Font[] = [
+export const Fonts: Font[] = [
     {
         name: 'Arial',
         fontFamily: 'Arial, Helvetica, sans-serif'

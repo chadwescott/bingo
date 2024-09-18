@@ -23,6 +23,7 @@
     "@angular/router": "^17.3.3",
     "angular-cli-ghpages": "^2.0.0-beta.2",
     "firebase": "^10.11.1",
+    "js-sha512": "^0.9.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.4"

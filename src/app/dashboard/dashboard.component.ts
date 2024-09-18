@@ -1,31 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { FireStoreService } from '../services/fire-store.service';
+import { Session } from '../models/session.model';
+
+interface SessionLookup {
+  id: string;
+  session: Session;
+}
 
 @Component({
   selector: 'bng-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
-  private subscriptions$: Subscription[] = [];
+export class DashboardComponent implements OnInit {
+  sessions: SessionLookup[] = [];
 
   constructor(public readonly gameService: FireStoreService, private readonly _route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.subscriptions$.push(this._route.params.subscribe((params) => {
-      const documentId = params['documentId'];
-
-      if (documentId) {
-        this.gameService.connectToSession(documentId);
-      }
-    }));
+    this.gameService.getActiveSessions().get().then(x => x.docs.map(d => this.sessions.push({ id: d.id, session: d.data().session })));
   }
 
-  ngOnDestroy(): void {
-    this.subscriptions$.map(s => s.unsubscribe());
+  loadSession(id: string): void {
+    this.gameService.connectToSession(id);
+  }
+
+  leaveSession(): void {
+    this.gameService.connectToSession('');
   }
 }
 

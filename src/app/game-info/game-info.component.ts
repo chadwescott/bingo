@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Game } from '../models/game.model';
+import { Session } from '../models/session.model';
 
 @Component({
   selector: 'bng-game-info',
@@ -7,5 +8,8 @@ import { Game } from '../models/game.model';
   styleUrl: './game-info.component.scss'
 })
 export class GameInfoComponent {
+  @Input() session: Session | null = null;
   @Input() game: Game | null = null;
+
+  @Output() leaveSession = new EventEmitter();
 }
