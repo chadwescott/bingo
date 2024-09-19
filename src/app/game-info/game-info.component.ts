@@ -10,6 +10,7 @@ import { Session } from '../models/session.model';
 export class GameInfoComponent {
   @Input() session: Session | null = null;
   @Input() game: Game | null = null;
+  @Input() showLeaveSession = false;
 
   @Output() leaveSession = new EventEmitter();
 }

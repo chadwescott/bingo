@@ -2,9 +2,11 @@
     <div class="row" expand>
         <div>{{ session?.title }}</div>
         <div class="row">Game: {{ game?.gameNumber }}
-            <button aria-label="Leave Session" alt="Leave Session" title="Leave Session" (click)="leaveSession.emit()">
+            <button *ngIf="showLeaveSession" aria-label="Leave Session" alt="Leave Session" title="Leave Session"
+                (click)="leaveSession.emit()">
                 <mat-icon>exit_to_app</mat-icon>
             </button>
         </div>
     </div>
+    <div class="row" expand>{{ game?.message}}</div>
 </div>

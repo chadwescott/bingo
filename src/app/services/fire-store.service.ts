@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection, Query } from "@angular/fire/compat/firestore";
 import { sha512 } from 'js-sha512';
-import { BehaviorSubject, filter, Subscription } from "rxjs";
+import { BehaviorSubject, filter, map, Subscription, tap } from "rxjs";
 import { Ball } from "../models/ball.model";
 import { Balls } from "../models/balls.model";
 import { Fonts } from "../models/font.model";
@@ -9,6 +9,7 @@ import { GameOptions } from "../models/game-options.model";
 import { Game } from "../models/game.model";
 import { Letters } from "../models/letters.model";
 import { Session } from "../models/session.model";
+import { SessionLookup } from '../models/session-lookup.model';
 import { DefaultTheme, Theme } from "../models/theme.model";
 import { WinPattern } from "../models/win-pattern.model";
 
@@ -30,6 +31,7 @@ export class FireStoreService implements OnDestroy {
     private subscriptions$: Subscription[] = [];
 
     documentId$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    activeSessions$: BehaviorSubject<SessionLookup[]> = new BehaviorSubject<SessionLookup[]>([]);
     currentSession$: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
     currentGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
@@ -43,6 +45,8 @@ export class FireStoreService implements OnDestroy {
         if (documentId) {
             this.connectToSession(documentId);
         }
+
+        this.getActiveSessions();
     }
 
     ngOnDestroy(): void {
@@ -50,6 +54,8 @@ export class FireStoreService implements OnDestroy {
     }
 
     connectToSession(id: string): void {
+        if (this.documentId$.value === id) { return; }
+
         localStorage.setItem(this._documentKey, id);
         this.documentId$.next(id);
         this.currentGame$.next(null);
@@ -75,12 +81,15 @@ export class FireStoreService implements OnDestroy {
             }));
     }
 
-    getActiveSessions(): Query<GameData> {
-        return this.gamesCollection.ref.where('session.active', '==', true);
-    }
+    getActiveSessions(): void {
+        this.gamesCollection.ref.where('session.active', '==', true).get().then(x => 
+            this.activeSessions$.next(x.docs.map(d => { return { id: d.id, session: d.data().session }; }))
+        );
 
-    deleteSession(id: string): void {
-        this.gamesCollection.doc(id).delete();
+        this.subscriptions$.push(this.gamesCollection.snapshotChanges()
+            .pipe(map(x => x.filter(y => y.payload.doc.data().session.active)))
+            .subscribe(x => this.activeSessions$.next(x.map(d => { return { id: d.payload.doc.id, session: d.payload.doc.data().session }; })))
+        );
     }
 
     private updateData(id: string, data: GameData): void {
@@ -175,6 +184,10 @@ export class FireStoreService implements OnDestroy {
 
     updateSession(session: Session): void {
         this.gamesCollection.doc(this.documentId$.value).update({ session: session });
+    }
+
+    deleteSession(id: string): void {
+        this.gamesCollection.doc(id).delete();
     }
 
     private getBalls(): { [key in Letters]: Ball[] } {

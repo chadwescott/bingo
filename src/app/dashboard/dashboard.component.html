@@ -2,7 +2,7 @@
     <mat-form-field wide>
         <mat-label>Join a Session</mat-label>
         <mat-select (selectionChange)="loadSession($event.value)">
-            @for (session of sessions; track session) {
+            @for (session of gameService.activeSessions$ | async; track session) {
             <mat-option [value]="session.id">{{ session.session.title }}</mat-option>
             }
         </mat-select>
@@ -15,7 +15,12 @@
             <bng-total-calls [game]="gameService.currentGame$ | async"></bng-total-calls>
         </div>
         <bng-current-call class="current-call" [call]="gameService.lastCall$ | async"></bng-current-call>
-        <bng-game-info class="game-info" [session]="gameService.currentSession$ | async" [game]="gameService.currentGame$ | async" (leaveSession)="leaveSession()"></bng-game-info>
+        <bng-game-info class="game-info"
+            [session]="gameService.currentSession$ | async"
+            [game]="gameService.currentGame$ | async"
+            [showLeaveSession]="((gameService.activeSessions$ | async)?.length ?? 0) > 1"
+            (leaveSession)="leaveSession()">
+        </bng-game-info>
         <bng-previous-calls class="previous-calls"></bng-previous-calls>
         <div class="card column win-patterns">
             <bng-win-patterns
