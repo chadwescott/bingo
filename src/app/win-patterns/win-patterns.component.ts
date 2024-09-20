@@ -9,7 +9,7 @@ import { WinPattern } from '../models/win-pattern.model';
   styleUrls: ['./win-patterns.component.scss']
 })
 export class WinPatternsComponent {
-  @Input() pattern: WinPattern | null = null;
+  @Input() pattern: WinPattern | undefined = undefined
   @Input() delayMs = 1000;
 
   patternIndex = 0;

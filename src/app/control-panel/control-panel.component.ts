@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { distinctUntilChanged, Subject, Subscription } from 'rxjs';
-import { debounceTime} from 'rxjs/operators';
+import { debounceTime, filter} from 'rxjs/operators';
 import { Fonts } from '../models/font.model';
 import { DefaultGameOptions } from '../models/game-options.model';
 import { Game } from '../models/game.model';
 import { DefaultSession, Session } from '../models/session.model';
 import { DefaultTheme, Theme } from '../models/theme.model';
 import { WinPattern } from '../models/win-pattern.model';
-import { WinPatterns } from '../models/win-patterns.model';
 import { FireStoreService } from '../services/fire-store.service';
 import { sha512 } from 'js-sha512';
 
@@ -21,7 +20,7 @@ export class ControlPanelComponent {
   documentId = '';
   session: Session = DefaultSession;
   currentGame: Game | null = null;
-  winPatterns = WinPatterns;
+  winPatterns$ = this.gameService.winPatterns$;
   password: string = '';
   gameNumber = 1;
   message = '';
@@ -43,6 +42,14 @@ export class ControlPanelComponent {
   ngOnInit() {
     this.subscriptions$.push(this.gameService.documentId$.subscribe(id => this.documentId = id));
 
+    this.subscriptions$.push(this.gameService.winPatterns$
+      .pipe(filter(wp => wp?.length > 0))
+      .subscribe(winPatterns => 
+      {
+        this.gameOptions.winPattern = winPatterns.find(wp => wp.name === this.gameOptions.winPattern?.name);
+      }
+    ));
+
     this.subscriptions$.push(this.gameService.currentGame$.subscribe(game => {
       this.currentGame = game;
       if (!game) { return; }
@@ -50,7 +57,7 @@ export class ControlPanelComponent {
       this.message = game.message;
       this.gameOptions = { ...game.options };
       this.gameOptions.markerColor = game.options.disableMarkerColor ? game.options.boardColor : game.options.markerColor;
-      this.gameOptions.winPattern = this.winPatterns.find(wp => wp.name === this.gameOptions.winPattern.name) ?? this.winPatterns[0];
+      this.gameOptions.winPattern = this.gameService.winPatterns$.value.find(wp => wp.name === this.gameOptions.winPattern?.name) ?? this.gameOptions.winPattern;
     }));
 
     this.subscriptions$.push(this.gameService.theme$.subscribe(theme => {
@@ -123,7 +130,7 @@ export class ControlPanelComponent {
 
   loadGame(game: Game): void {
     this.currentGame = game;
-    this.gameService.updateGame(game);
+    this.gameService.loadGame(game);
   }
 
   updateTheme(): void {

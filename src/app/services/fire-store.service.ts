@@ -20,6 +20,12 @@ export interface GameData {
     theme: Theme;
 }
 
+export interface WinPatternData {
+    name: string;
+    isDefault: boolean;
+    winPattern: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -27,6 +33,7 @@ export class FireStoreService implements OnDestroy {
     private readonly _documentKey = 'document-id';
 
     private gamesCollection: AngularFirestoreCollection<GameData> = this.firestore.collection('bingo');
+    private winPatternCollection: AngularFirestoreCollection<WinPatternData> = this.firestore.collection('win-patterns');
     private currentGameIndex = 0;
     private subscriptions$: Subscription[] = [];
 
@@ -35,6 +42,7 @@ export class FireStoreService implements OnDestroy {
     currentSession$: BehaviorSubject<Session | null> = new BehaviorSubject<Session | null>(null);
     currentGame$: BehaviorSubject<Game | null> = new BehaviorSubject<Game | null>(null);
     games$: BehaviorSubject<Game[]> = new BehaviorSubject<Game[]>([]);
+    winPatterns$: BehaviorSubject<WinPattern[]> = new BehaviorSubject<WinPattern[]>([]);
     lastCall$: BehaviorSubject<Ball | null> = new BehaviorSubject<Ball | null>(null);
     previousCalls$: BehaviorSubject<Ball[]> = new BehaviorSubject<Ball[]>([]);
     theme$ = new BehaviorSubject<Theme>(DefaultTheme);
@@ -47,6 +55,7 @@ export class FireStoreService implements OnDestroy {
         }
 
         this.getActiveSessions();
+        this.loadWinPatterns();
     }
 
     ngOnDestroy(): void {
@@ -92,6 +101,16 @@ export class FireStoreService implements OnDestroy {
         );
     }
 
+    loadWinPatterns(): void {
+        this.subscriptions$.push(this.winPatternCollection.get().subscribe(wp => {
+            const sortedWinPatterns = wp.docs
+                .sort((a, b) => a.data().name < b.data().name ? -1 : 0)
+                .sort((a, b) => a.data().isDefault ? -1 : 0)
+                .map(x => JSON.parse(x.data().winPattern));
+            this.winPatterns$.next(sortedWinPatterns);
+        }));
+    }
+
     private updateData(id: string, data: GameData): void {
         const theme = data.theme;
         theme.font = Fonts.find(f => f.name === theme.font.name) ?? DefaultTheme.font;
@@ -113,6 +132,16 @@ export class FireStoreService implements OnDestroy {
         document.documentElement.style.setProperty('--board-text-color', currentGame.options.boardTextColor);
         this.updatePreviousCalls(currentGame);
         this.currentGame$.next(currentGame);
+    }
+
+    loadGame(game: Game): void {
+        const games = this.games$.value;
+        this.currentGameIndex = games.findIndex(g => g === game);
+        games[this.currentGameIndex] = game;
+
+        if (this.documentId$.value) {
+            this.gamesCollection?.doc(this.documentId$.value).update({ currentGameIndex: this.currentGameIndex });
+        }
     }
 
     updateGame(game: Game): void {

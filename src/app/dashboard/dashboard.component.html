@@ -24,7 +24,7 @@
         <bng-previous-calls class="previous-calls"></bng-previous-calls>
         <div class="card column win-patterns">
             <bng-win-patterns
-                [pattern]="(gameService.currentGame$ | async)?.options?.winPattern ?? null"></bng-win-patterns>
+                [pattern]="(gameService.currentGame$ | async)?.options?.winPattern"></bng-win-patterns>
             <div>{{ (gameService.currentGame$ | async)?.options?.winPattern?.name}}</div>
         </div>
     </div>
